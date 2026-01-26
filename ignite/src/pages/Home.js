@@ -22,7 +22,14 @@ const Home = () => {
     <GameList>
           <h1>Upcoming Games</h1>
           <Games>
-              {upcoming.map((game) => (<Game />))}
+              {upcoming.map((game) => (<Game
+                  name={game.name}
+                  released={game.released}
+                  id={game.id}
+                  image={game.background_image}
+                  key={game.id}
+              />
+              ))}
           </Games>
     </GameList>
   );
