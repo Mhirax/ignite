@@ -16,13 +16,22 @@ const Home = () => {
     dispatch(loadGames());
   }, [dispatch]);
     //Get the data back
-    const games = useSelector((state) => state.games);
-    console.log(games);
+    const { popular, newGames, upcoming} = useSelector((state) => state.games);
+  
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <GameList>
+          <h1>Upcoming Games</h1>
+          <Games>
+              {upcoming.map((game) => (<Game />))}
+          </Games>
+    </GameList>
   );
 };
+
+const GameList = styled(motion.div)`   
+
+`
+const Games = styled(motion.div)`
+`
 
 export default Home;
