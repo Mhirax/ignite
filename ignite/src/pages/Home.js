@@ -4,6 +4,10 @@ import { useDispatch } from "react-redux";
 import { loadGames } from "../actions/gamesAction";
 //components
 import Game from '../components/Game';
+//Styling and Animation
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+
 
 const Home = () => {
   // FETCH GAMES
@@ -11,6 +15,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(loadGames());
   });
+    //Get the data back
   return (
     <div>
       <h1>Home</h1>
