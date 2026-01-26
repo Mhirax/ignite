@@ -14,8 +14,10 @@ const Home = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadGames());
-  });
+  }, [dispatch]);
     //Get the data back
+    const games = useSelector((state) => state.games);
+    console.log(games);
   return (
     <div>
       <h1>Home</h1>
