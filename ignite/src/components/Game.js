@@ -3,13 +3,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-const Game = () => {
+const Game = ({ name, released, image }) => {
     return (
-        <div>
-            <h3>Game Name</h3>
-            <p>Released date</p>
-        </div>
-    )
-}
+        <StyledGame>
+          <h3>{name}</h3>
+          <p>{released}</p>
+          <img src={image} alt={name} />
+        </StyledGame>
+    );
+};
+
+const StyledGame = styled(motion.div)`img {
+    width: 100%;
+};`
 
 export default Game;
