@@ -32,12 +32,13 @@ export const popularGamesURL = () => `${base_url}${popular_games}`;
 export const upcomingGamesURL = () => `${base_url}${upcoming_games}`;
 export const newGamesURL = () => `${base_url}${newGames}`;
 
-
 //GAME DETAILS
-export const gameDetailsURL = (game_id) => 
+export const gameDetailsURL = (game_id) =>
   //API KEY must be passed👇
-  `${base_url}games/${game_id}?key=${API_KEY}`;  
+  `${base_url}games/${game_id}?key=${API_KEY}`;
 
 console.log("Upcoming URL:", upcomingGamesURL());
 
-//
+//Game screenshots
+export const gameScreenshotURL = (game_id) =>
+  `${base_url}games/${game_id}/screenshots?key=${API_KEY}`;
