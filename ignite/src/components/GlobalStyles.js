@@ -34,8 +34,12 @@ p{
  font-size: 1.2rem;
  line-height: 50%;
  color: #696969;
- font-weight: 600;
+ font-weight: 400;
 }
+ a{
+ text-decoration: none;
+ color: 
+ }
 `;
 
 
