@@ -30,6 +30,9 @@ font-size: 1.3rem;
 color: #333;
 padding: 0.7rem;
 }
+p{
+ font-size: 1.2rem;
+}
 `;
 
 
