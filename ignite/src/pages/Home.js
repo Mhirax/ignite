@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import GameDetail from "../components/GameDetail";
 //Redux
 import { useDispatch, useSelector } from "react-redux";
 import { loadGames } from "../actions/gamesAction";
@@ -14,11 +15,13 @@ const Home = () => {
   useEffect(() => {
     dispatch(loadGames());
   }, [dispatch]);
+
   //Get the data back
   const { popular, newGames, upcoming } = useSelector((state) => state.games);
 
   return (
     <GameList>
+      <GameDetail />
       <h1>Upcoming Games</h1>
       <Games>
         {upcoming.map((game) => (
@@ -59,12 +62,14 @@ const Home = () => {
   );
 };
 
+//STYLED COMPONENT 
 const GameList = styled(motion.div)`
   padding: 0rem 5rem;
   h2 {
     padding: 5rem 0rem;
   }
 `;
+
 const Games = styled(motion.div)`
 min-height: 80vh;
 display: grid;
