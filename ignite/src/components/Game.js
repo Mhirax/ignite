@@ -1,36 +1,40 @@
-import React from 'react';
-//Styling and Animation
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-//Redux
-import { useDispatch } from 'react-redux';
-import { loadDetail } from '../actions/detailAction';
+// src/components/Game.js
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { loadDetail } from "../actions/detailAction";
 
 const Game = ({ name, released, image, id }) => {
-    //Load Details 
-    const dispatch = useDispatch();
-    const loadDetailHandler = () => {
-      console.log("Clicking game ID:", id); // 👈 Add this
-      dispatch(loadDetail(id));
-    }
-    return (
-        <StyledGame onClick={loadDetailHandler}>
-          <h3>{name}</h3>
-          <p>{released}</p>
-          <img src={image} alt={name} />
-        </StyledGame>
-    );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    dispatch(loadDetail(id));
+    navigate(`/game/${id}`);
+  };
+
+  return (
+    <StyledGame onClick={handleClick}>
+      <h3>{name}</h3>
+      <p>{released}</p>
+      <img src={image} alt={name} />
+    </StyledGame>
+  );
 };
 
 const StyledGame = styled(motion.div)`
-min-height: 30vh;
-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
-text-align: center;
-border-radius: 1rem;
-img {
+  min-height: 30vh;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  border-radius: 1rem;
+  cursor: pointer;
+  img {
     width: 100%;
-    height: 40vh;
+    height: 200px;
     object-fit: cover;
-};`
+  }
+`;
 
 export default Game;

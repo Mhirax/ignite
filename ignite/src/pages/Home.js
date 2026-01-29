@@ -1,27 +1,25 @@
+// src/pages/Home.js
 import React, { useEffect } from "react";
-import GameDetail from "../components/GameDetail";
-//Redux
+// Redux
 import { useDispatch, useSelector } from "react-redux";
 import { loadGames } from "../actions/gamesAction";
-//components
+// Components
 import Game from "../components/Game";
-//Styling and Animation
+// Styling
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
 const Home = () => {
-  // FETCH GAMES
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(loadGames());
   }, [dispatch]);
 
-  //Get the data back
   const { popular, newGames, upcoming } = useSelector((state) => state.games);
 
   return (
     <GameList>
-      <GameDetail />
       <h1>Upcoming Games</h1>
       <Games>
         {upcoming.map((game) => (
@@ -34,6 +32,7 @@ const Home = () => {
           />
         ))}
       </Games>
+
       <h1>Popular Games</h1>
       <Games>
         {popular.map((game) => (
@@ -46,6 +45,7 @@ const Home = () => {
           />
         ))}
       </Games>
+
       <h1>New Games</h1>
       <Games>
         {newGames.map((game) => (
@@ -62,20 +62,18 @@ const Home = () => {
   );
 };
 
-//STYLED COMPONENT 
 const GameList = styled(motion.div)`
   padding: 0rem 5rem;
-  h2 {
-    padding: 5rem 0rem;
+  h1 {
+    margin: 2rem 0;
   }
 `;
 
 const Games = styled(motion.div)`
-min-height: 80vh;
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(500px,1fr));
-grid-column-gap: 3rem;
-grid-row-gap: 5rem;
+  min-height: 80vh;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
 `;
 
 export default Home;
