@@ -1,3 +1,4 @@
+//INITIAL STATE
 const initState = {
   popular: [],
   newGames: [],
@@ -5,6 +6,7 @@ const initState = {
   searched: [],
 };
 
+//REDUCER
 const gameReducer = (state = initState, action) => {
   switch (action.type) {
     case "FETCH_GAMES":

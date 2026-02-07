@@ -7,7 +7,7 @@ import { loadGames } from "../actions/gamesAction";
 import Game from "../components/Game";
 // Styling
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion,AnimatePresence, AnimateSharedLayout } from "framer-motion";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -15,11 +15,13 @@ const Home = () => {
   useEffect(() => {
     dispatch(loadGames());
   }, [dispatch]);
-
+  
   const { popular, newGames, upcoming } = useSelector((state) => state.games);
 
   return (
     <GameList>
+      <AnimateSharedLayout type="crossfade">
+        <AnimatePresence></AnimatePresence>
       <h1>Upcoming Games</h1>
       <Games>
         {upcoming.map((game) => (
@@ -31,7 +33,8 @@ const Home = () => {
             key={game.id}
           />
         ))}
-      </Games>
+        </Games>
+        
 
       <h1>Popular Games</h1>
       <Games>
@@ -57,7 +60,8 @@ const Home = () => {
             key={game.id}
           />
         ))}
-      </Games>
+        </Games>
+        </AnimateSharedLayout>
     </GameList>
   );
 };

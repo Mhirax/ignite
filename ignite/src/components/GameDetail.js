@@ -1,21 +1,31 @@
 // src/components/GameDetail.js
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { loadDetail } from "../actions/detailAction";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { smallImage } from "../util";
 
 const GameDetail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
-  const { screen, game,isLoading } = useSelector((state) => state.detail);
+
+  const exitDetailHandler = (e) => {
+    if (e.target.classList.contains("shadow") || e.target === e.currentTarget) {
+      document.body.style.overflow = "auto";
+      navigate("/");
+    }
+  };
+
+  const { screen, game } = useSelector((state) => state.detail);
 
   useEffect(() => {
     if (id && (!game || game.id !== parseInt(id))) {
       dispatch(loadDetail(id));
     }
-  }, [id, game, dispatch]); // ✅ All dependencies included
+  }, [id, , dispatch]);
 
   if (!game || !game.id) {
     return <Loading>Loading game details...</Loading>;
@@ -24,49 +34,73 @@ const GameDetail = () => {
   const description = game.description_raw || "No description available.";
 
   return (
-    <>
-      {!isLoading && (
-        <CardShadow>
-          <Detail>
-            <div className="stats">
-              <div className="rating">
-                <h3>{game.name}</h3>
-                <p>Rating: {game.rating}</p>
-              </div>
-              <div className="info">
-                <h3>Platforms</h3>
-                <div className="platforms">
-                  {game.platforms &&
-                    game.platforms.map((data) => (
-                      <h3 key={data.platform.id}>{data.platform.name}</h3>
-                    ))}
-                </div>
-              </div>
-            </div>
-            <div className="media">
-              <img src={game.background_image} alt={game.name} />
-            </div>
-            <div className="description">
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: description.replace(/\n/g, "<br />"),
-                }}
-              />
-            </div>
-            <div className="gallery">
-              {screen.results &&
-                screen.results.map((screenshot) => (
-                  <img
-                    key={screenshot.id}
-                    src={screenshot.image}
-                    alt="Screenshot"
-                  />
+    <CardShadow className="shadow" onClick={exitDetailHandler}>
+      <Detail>
+        <div className="stats">
+          <div className="rating">
+            <h3>{game.name}</h3>
+            <p>Rating: {game.rating}</p>
+          </div>
+          <div className="info">
+            <h3>Platforms</h3>
+            <div className="platforms">
+              {game.platforms &&
+                game.platforms.map((data) => (
+                  <h3 key={data.platform.id}>{data.platform.name}</h3>
                 ))}
             </div>
-          </Detail>
-        </CardShadow>
-      )}
-    </>
+          </div>
+        </div>
+        <div className="media">
+          <img
+            src={
+              game.background_image ||
+              "https://placehold.co/800x400/e0e0e0/aaaaaa?text=No+Cover"
+            }
+            alt={game.name}
+            onError={(e) => {
+              e.target.src =
+                "https://placehold.co/800x400/e0e0e0/aaaaaa?text=Image+Unavailable";
+            }}
+          />
+        </div>
+        <div className="description">
+          <p
+            dangerouslySetInnerHTML={{
+              __html: description.replace(/\n/g, "<br />"),
+            }}
+          />
+        </div>
+        <div className="gallery">
+          {screen.results && screen.results.length > 0 ? (
+            screen.results.map((screenshot) => (
+              <img
+                key={screenshot.id}
+                src={
+                  screenshot.image ||
+                  "https://placehold.co/200x150/e0e0e0/aaaaaa?text=SS"
+                }
+                alt={`Screenshot ${screenshot.id}`}
+                onError={(e) => {
+                  e.target.src =
+                    "https://placehold.co/200x150/e0e0e0/aaaaaa?text=Fail";
+                }}
+              />
+            ))
+          ) : (
+            <p
+              style={{
+                gridColumn: "1 / -1",
+                textAlign: "center",
+                color: "#777",
+              }}
+            >
+              No screenshots available
+            </p>
+          )}
+        </div>
+      </Detail>
+    </CardShadow>
   );
 };
 
@@ -104,8 +138,12 @@ const Detail = styled(motion.div)`
 
   img {
     width: 100%;
-    border-radius: 0.5rem;
-    margin: 1rem 0;
+    height: auto;
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+    margin: 0.5rem 0;
   }
 
   .description p {
