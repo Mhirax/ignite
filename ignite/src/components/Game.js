@@ -1,11 +1,10 @@
-// Game.js
+// src/components/Game.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; // ✅ keep this
 import { useDispatch } from "react-redux";
 import { loadDetail } from "../actions/detailAction";
-
 
 const Game = ({ name, released, image, id }) => {
   const dispatch = useDispatch();
@@ -17,14 +16,18 @@ const Game = ({ name, released, image, id }) => {
     navigate(`/game/${id}`);
   };
 
-  // 🔍 Debug (optional): uncomment to verify
-  // console.log("Image:", image, "→ Resized:", smallImage(image, 640));
-
   return (
     <StyledGame layoutId={id} onClick={handleClick}>
-      <h3>{name}</h3>
-      <p>{released}</p>
-      <img src={image || "https://placehold.co/640x360/e0e0e0/aaaaaa?text=No+Image"} alt={name} />
+      {/* ✅ Safe: use motion.h3 only if motion is imported (it is) */}
+      <motion.h3 layout>{name}</motion.h3>
+      <motion.p layout>{released}</motion.p>
+      <motion.img
+        layout
+        src={
+          image || "https://placehold.co/640x360/e0e0e0/aaaaaa?text=No+Image"
+        }
+        alt={name}
+      />
     </StyledGame>
   );
 };
@@ -38,10 +41,8 @@ const StyledGame = styled(motion.div)`
   img {
     width: 100%;
     height: auto;
-    max-width: 100%;
-    max-height: 200px; /* for cards */
+    max-height: 200px;
     object-fit: cover;
-    display: block;
   }
 `;
 

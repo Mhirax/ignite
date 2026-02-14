@@ -7,7 +7,7 @@ import { loadGames } from "../actions/gamesAction";
 import Game from "../components/Game";
 // Styling
 import styled from "styled-components";
-import { motion,AnimatePresence, AnimateSharedLayout } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -19,16 +19,14 @@ const Home = () => {
   const { popular, newGames, upcoming } = useSelector((state) => state.games);
 
   return (
-    <GameList>
-      <AnimateSharedLayout type="crossfade">
-        <AnimatePresence></AnimatePresence>
+    <GameList>       
       <h1>Upcoming Games</h1>
       <Games>
         {upcoming.map((game) => (
           <Game
             name={game.name}
             released={game.released}
-            id={game.id}
+            id={String(game.id)}
             image={game.background_image}
             key={game.id}
           />
@@ -42,7 +40,7 @@ const Home = () => {
           <Game
             name={game.name}
             released={game.released}
-            id={game.id}
+            id={String(game.id)}
             image={game.background_image}
             key={game.id}
           />
@@ -55,13 +53,12 @@ const Home = () => {
           <Game
             name={game.name}
             released={game.released}
-            id={game.id}
+            id={String(game.id)}
             image={game.background_image}
             key={game.id}
           />
         ))}
         </Games>
-        </AnimateSharedLayout>
     </GameList>
   );
 };
@@ -77,7 +74,9 @@ const Games = styled(motion.div)`
   min-height: 80vh;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
+  padding: 0 2rem;
+  margin-top: 2rem;
 `;
 
 export default Home;
