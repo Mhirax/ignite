@@ -1,3 +1,5 @@
+//WORKING ON API
+
 // 🔑 PASTE YOUR REAL KEY HERE (from rawg.io)
 const API_KEY = "a29ef93a191743ff9869e602e14dc1bf"; // ← REPLACE THIS!
 
