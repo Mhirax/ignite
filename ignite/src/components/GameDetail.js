@@ -6,48 +6,41 @@ import { loadDetail } from "../actions/detailAction";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-//IMAGES 
-import playstation from '../img/playstation.png';
-import Xbox from '../img/xbox.png';
-import steam from '../img/steam.png';
-//what is nintendo
-// import nintendo from '../img/nintendo.svg';
-import apple from '../img/apple.png';
-import gamepad from '../img/gamepad.svg';
+// ✅ IMPORT SVGs — make sure filenames match exactly
+import playstation from "../img/playstation.png";
+import Xbox from "../img/xbox.png";
+import steam from "../img/steam.png";
+// import nintendo from "../img/nintendo.svg";
+import apple from "../img/apple.png";
+import gamepad from "../img/gamepad.svg";
 
 const GameDetail = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const { screen, game } = useSelector((state) => state.detail);
 
-  //FETCHING GAME DATA
   useEffect(() => {
     if (id && (!game || game.id !== parseInt(id))) {
       dispatch(loadDetail(id));
     }
   }, [id, game, dispatch]);
 
-//FIXING THIS BUG AM TIRED
-
-  //GET PLATFORM IMAGES 
-  const getPlatform = (platform) => {
-    switch (platform) {
-      case "Playstation 4":
-        return playstation;
-      case "Xbox One":
-        return Xbox;
-      case "PC":
-        return steam;
-      case "Nintendo Switch":
-        return nintendo;
-      case "iOS":
-        return apple;
-      default:
-        return gamepad;
-     }
-  }
+  // ✅ Handle real RAWG platform names
+  const getPlatformIcon = (platformName) => {
+    const name = (platformName || "").toLowerCase();
+    if (name.includes("playstation")) return playstation;
+    if (name.includes("xbox")) return Xbox;
+    if (name.includes("pc") || name.includes("windows")) return steam;
+    // if (name.includes("switch") || name.includes("nintendo")) return nintendo;
+    if (
+      name.includes("ios") ||
+      name.includes("iphone") ||
+      name.includes("ipad")
+    )
+      return apple;
+    return gamepad;
+  };
 
   const exitHandler = () => {
     document.body.style.overflow = "auto";
@@ -75,15 +68,34 @@ const GameDetail = () => {
           </LoadingWrapper>
         ) : (
           <>
-            {/* ✅ PLATFORMS IN TOP-RIGHT CORNER */}
+            {/* ✅ PLATFORMS WITH ICONS IN TOP-RIGHT */}
             <div className="platforms-corner">
               <h3>PLATFORMS</h3>
-              <p className="platforms-list">
-                {Array.isArray(game.platforms) && game.platforms.length > 0
-                  ? game.platforms.map((data) => data.platform?.name || "Unknown")
-                      .join(" / ")
-                  : "—"}
-              </p>
+              <div className="platform-icons">
+                {Array.isArray(game.platforms) && game.platforms.length > 0 ? (
+                  game.platforms.map((data, i) => {
+                    const platformName = data.platform?.name || "Unknown";
+                    const icon = getPlatformIcon(platformName);
+                    return (
+                      <div key={i} className="icon-wrapper">
+                        <img
+                          src={icon}
+                          alt={platformName}
+                          className="platform-icon"
+                        />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="icon-wrapper">
+                    <img
+                      src={gamepad}
+                      alt="Unknown"
+                      className="platform-icon"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Title */}
@@ -126,15 +138,7 @@ const GameDetail = () => {
                   />
                 ))
               ) : (
-                <p
-                  style={{
-                    gridColumn: "1 / -1",
-                    textAlign: "center",
-                    color: "#777",
-                  }}
-                >
-                  No screenshots available
-                </p>
+                <p className="no-screenshots">No screenshots available</p>
               )}
             </motion.div>
           </>
@@ -170,7 +174,7 @@ const CardShadow = styled(motion.div)`
 `;
 
 const Detail = styled(motion.div)`
-  position: relative; /* ✅ Required for absolute positioning */
+  position: relative;
   width: 80%;
   max-width: 800px;
   background: white;
@@ -208,7 +212,7 @@ const Detail = styled(motion.div)`
 
   h2 {
     margin: 0 0 0.6rem 0;
-    font-size: 0.9rem;
+    font-size: 1.8rem;
     font-weight: 700;
   }
 
@@ -218,18 +222,16 @@ const Detail = styled(motion.div)`
     color: #555;
   }
 
-  /* ✅ TOP-RIGHT PLATFORMS */
+  /* ✅ PLATFORMS CORNER */
   .platforms-corner {
     position: absolute;
-    top: 1rem; /* align with padding */
-    right: 2rem; /* align with padding */
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    max-width: 270px;
+    top: 1rem;
+    right: 2rem;
+    background: transparent;
   }
 
   .platforms-corner h3 {
-    margin: 0 0 0.2rem 0;
+    margin: 0 0 0.4rem 0;
     font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -237,13 +239,43 @@ const Detail = styled(motion.div)`
     letter-spacing: 1px;
   }
 
-  .platforms-list {
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    color: #333;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  /* ✅ ICONS STYLING */
+  .platform-icons {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  .icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+  }
+
+  .platform-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: grayscale(80%);
+    transition:
+      filter 0.2s,
+      opacity 0.2s;
+    /* Ensure transparency */
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .platform-icon:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
+  .no-screenshots {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #777;
   }
 `;
 
