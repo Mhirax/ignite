@@ -213,7 +213,8 @@ const Detail = styled(motion.div)`
 
   h2 {
     margin: 0 0 0.6rem 0;
-    font-size: 1.8rem;
+    //game title
+    font-size: 1.6rem;
     font-weight: 700;
   }
 
