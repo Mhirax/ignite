@@ -6,17 +6,47 @@ import { loadDetail } from "../actions/detailAction";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+//IMAGES 
+import playstation from '../img/playstation.svg';
+import Xbox from '../img/Xbox.svg';
+import steam from '../img/steam.svg';
+import nintendo from '../img/nintendo.svg';
+import apple from '../img/apple.svg';
+import gamepad from '../img/gamepad.svg';
+
 const GameDetail = () => {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const { screen, game } = useSelector((state) => state.detail);
 
+  //FETCHING GAME DATA
   useEffect(() => {
     if (id && (!game || game.id !== parseInt(id))) {
       dispatch(loadDetail(id));
     }
   }, [id, game, dispatch]);
+
+//FIXING THIS BUG AM TIRED
+
+  //GET PLATFORM IMAGES 
+  const getPlatform = (platform) => {
+    switch (platform) {
+      case "Playstation 4":
+        return playstation;
+      case "Xbox One":
+        return Xbox;
+      case "PC":
+        return steam;
+      case "Nintendo Switch":
+        return nintendo;
+      case "iOS":
+        return apple;
+      default:
+        return gamepad;
+     }
+  }
 
   const exitHandler = () => {
     document.body.style.overflow = "auto";
@@ -49,8 +79,7 @@ const GameDetail = () => {
               <h3>PLATFORMS</h3>
               <p className="platforms-list">
                 {Array.isArray(game.platforms) && game.platforms.length > 0
-                  ? game.platforms
-                      .map((data) => data.platform?.name || "Unknown")
+                  ? game.platforms.map((data) => data.platform?.name || "Unknown")
                       .join(" / ")
                   : "—"}
               </p>
