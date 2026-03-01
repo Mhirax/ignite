@@ -32,6 +32,7 @@ const GameDetail = () => {
     if (name.includes("playstation")) return playstation;
     if (name.includes("xbox")) return Xbox;
     if (name.includes("pc") || name.includes("windows")) return steam;
+    //we add nintendo when we get the real icon
     // if (name.includes("switch") || name.includes("nintendo")) return nintendo;
     if (
       name.includes("ios") ||
