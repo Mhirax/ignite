@@ -7,11 +7,12 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 //IMAGES 
-import playstation from '../img/playstation.svg';
-import Xbox from '../img/Xbox.svg';
-import steam from '../img/steam.svg';
-import nintendo from '../img/nintendo.svg';
-import apple from '../img/apple.svg';
+import playstation from '../img/playstation.png';
+import Xbox from '../img/xbox.png';
+import steam from '../img/steam.png';
+//what is nintendo
+// import nintendo from '../img/nintendo.svg';
+import apple from '../img/apple.png';
 import gamepad from '../img/gamepad.svg';
 
 const GameDetail = () => {
