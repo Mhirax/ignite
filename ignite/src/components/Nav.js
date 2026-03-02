@@ -7,7 +7,9 @@ import { motion } from "framer-motion";
 const Nav = () => {
     return (
         <StyledNav>
-
+            <Logo>
+                
+           </Logo>
         </StyledNav>
 
     );
