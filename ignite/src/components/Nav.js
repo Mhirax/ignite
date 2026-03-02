@@ -6,12 +6,18 @@ import { motion } from "framer-motion";
 
 const Nav = () => {
     return (
+        <StyledNav>
+
+        </StyledNav>
 
     );
 }
 
 const StyledNav = styled(motion.nav)`
 
+`
+
+const Logo = styled(motion.div)`
 
 `
 export default Nav;
