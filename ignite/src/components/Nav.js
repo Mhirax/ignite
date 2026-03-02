@@ -8,7 +8,7 @@ const Nav = () => {
     return (
         <StyledNav>
             <Logo>
-                
+                <img src={} alt="logo"/>
            </Logo>
         </StyledNav>
 
