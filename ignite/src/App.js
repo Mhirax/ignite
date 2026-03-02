@@ -1,9 +1,11 @@
 // src/App.js
 import React from "react";
+//Router
 import { Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion"; // 👈 NEW IMPORT
 import Home from "./pages/Home";
 import GameDetail from "./components/GameDetail";
+//styles
 import GlobalStyles from "./components/GlobalStyles";
 import Nav from "./components/Nav";
 
