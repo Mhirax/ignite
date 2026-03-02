@@ -9,8 +9,10 @@ const Nav = () => {
         <StyledNav>
             <Logo>
                 {/* <img src={} alt="logo"/> */}
+                <h2>IGNITE/FLARE🔥</h2>
             </Logo>
             <div className="search">
+
                 <input type="text" />
                 <button>Search</button>
             </div>
