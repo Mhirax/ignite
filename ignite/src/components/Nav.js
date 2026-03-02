@@ -8,8 +8,12 @@ const Nav = () => {
     return (
         <StyledNav>
             <Logo>
-                <img src={} alt="logo"/>
-           </Logo>
+                {/* <img src={} alt="logo"/> */}
+            </Logo>
+            <div className="search">
+                <input type="text" />
+                <button>Search</button>
+            </div>
         </StyledNav>
 
     );
