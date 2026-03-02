@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion"; // 👈 NEW IMPORT
 import Home from "./pages/Home";
 import GameDetail from "./components/GameDetail";
 import GlobalStyles from "./components/GlobalStyles";
+import Nav from "./components/Nav";
 
 function App() {
   return (
