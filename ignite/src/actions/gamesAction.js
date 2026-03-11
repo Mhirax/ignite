@@ -30,7 +30,7 @@ export const loadGames = () => async (dispatch) => {
   }
 };
 
-// 🔍 NEW: Search action
+// Action to search for a game
 export const searchGames = (gameName) => async (dispatch) => {
   // Show loading state
   dispatch({
@@ -53,7 +53,11 @@ export const searchGames = (gameName) => async (dispatch) => {
       type: "SEARCH_GAMES",
       payload: data.results,
     });
-  } catch (error) {
+  }
+  
+  
+  
+  catch (error) {
     console.error("Error searching games:", error);
     dispatch({
       type: "SEARCH_ERROR",

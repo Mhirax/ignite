@@ -11,7 +11,6 @@ import playstation from "../img/playstation.png";
 import Xbox from "../img/xbox.png";
 import steam from "../img/steam.png";
 // import nintendo from "../img/nintendo.svg";
-import apple from "../img/apple.png";
 import gamepad from "../img/gamepad.svg";
 
 const GameDetail = () => {
@@ -39,7 +38,6 @@ const GameDetail = () => {
       name.includes("iphone") ||
       name.includes("ipad")
     )
-      return apple;
     return gamepad;
   };
 

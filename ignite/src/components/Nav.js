@@ -41,7 +41,7 @@ const Nav = () => {
   return (
     <StyledNav>
       <Logo onClick={handleLogoClick}>
-        <h2>IGNITE/FLARE🔥</h2>
+        <h2>IGNITE</h2>
       </Logo>
 
       {/* 🔍 Search form - now with onSubmit */}
@@ -61,7 +61,7 @@ const Nav = () => {
 // Styled components
 const StyledNav = styled(motion.nav)`
   padding: 1rem 5rem;
-  background: #ff7676;
+  background: #e44848;
   display: flex;
   justify-content: space-between;
   align-items: center;
