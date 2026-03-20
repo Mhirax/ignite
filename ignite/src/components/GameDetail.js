@@ -10,7 +10,6 @@ import { motion } from "framer-motion";
 import playstation from "../img/playstation.png";
 import Xbox from "../img/xbox.png";
 import steam from "../img/steam.png";
-// import nintendo from "../img/nintendo.svg";
 import gamepad from "../img/gamepad.svg";
 
 const GameDetail = () => {

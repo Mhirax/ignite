@@ -1,146 +1,111 @@
-// components/Nav.js
+// src/components/Nav.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { searchGames } from "../actions/gamesAction";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 
 const Nav = () => {
   const [searchInput, setSearchInput] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 🔍 Handle search form submission
   const handleSearch = (e) => {
     e.preventDefault();
-
-    // Don't search if input is empty
-    if (searchInput.trim() === "") {
-      alert("Please enter a game name");
-      return;
+    if (searchInput.trim()) {
+      dispatch(searchGames(searchInput));
+      navigate("/");
+      setSearchInput("");
     }
-
-    // Dispatch search action
-    dispatch(searchGames(searchInput));
-
-    // Navigate to home to see results
-    navigate("/");
-
-    // Clear input
-    setSearchInput("");
-  };
-
-  // 🔍 Handle logo click - go home and clear search
-  const handleLogoClick = () => {
-    navigate("/");
-    // Optional: Clear search results when going home
-    // dispatch({ type: "CLEAR_SEARCH" });
   };
 
   return (
-    <StyledNav>
-      <Logo onClick={handleLogoClick}>
-        <h2>IGNITE</h2>
-      </Logo>
-
-      {/* 🔍 Search form - now with onSubmit */}
-      <form onSubmit={handleSearch} className="search">
-        <input
+    <NavBar>
+      <Logo onClick={() => navigate("/")}>IGNITE</Logo>
+      <SearchForm onSubmit={handleSearch}>
+        <SearchInput
           type="text"
+          placeholder="Search games..."
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search games..."
         />
-        <button type="submit">Search</button>
-      </form>
-    </StyledNav>
+        <SearchButton type="submit">Search</SearchButton>
+      </SearchForm>
+    </NavBar>
   );
 };
 
-// Styled components
-const StyledNav = styled(motion.nav)`
-  padding: 1rem 5rem;
-  background: #e44848;
+const NavBar = styled.nav`
+  background: linear-gradient(135deg, #b63737 0%, #ff4f4f 100%);
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    padding: 1rem 2rem;
     flex-direction: column;
     gap: 1rem;
-  }
-
-  .search {
-    display: flex;
-    gap: 0.5rem;
-
-    @media (max-width: 768px) {
-      width: 100%;
-    }
-  }
-
-  input {
-    width: 300px;
-    font-size: 1rem;
-    border: none;
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
-    font-weight: 500;
-
-    @media (max-width: 768px) {
-      width: 100%;
-    }
-
-    &:focus {
-      outline: 2px solid #333;
-    }
-  }
-
-  button {
-    font-size: 1rem;
-    border: none;
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    color: white;
-    background: #333;
-    transition: all 0.3s ease;
-    font-weight: 600;
-
-    &:hover {
-      background: #555;
-      transform: scale(1.05);
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
+    padding: 1rem;
   }
 `;
 
-const Logo = styled(motion.div)`
+const Logo = styled.div`
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
   cursor: pointer;
-
-  h2 {
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-
-    @media (max-width: 768px) {
-      font-size: 1.5rem;
-    }
-  }
+  letter-spacing: 1px;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
+  }
+`;
+
+const SearchForm = styled.form`
+  display: flex;
+  gap: 0.5rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const SearchInput = styled.input`
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  width: 300px;
+  outline: none;
+  background: white;
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const SearchButton = styled.button`
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+
+  &:hover {
+    background: #555;
+    transform: translateY(-2px);
   }
 `;
 

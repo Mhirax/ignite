@@ -9,7 +9,6 @@ import Nav from "./components/Nav";
 //styles
 import GlobalStyles from "./components/GlobalStyles";
 
-
 function App() {
   return (
     <div className="App">
@@ -17,11 +16,16 @@ function App() {
       <Nav />
       {/* 👇 Wrap Routes in AnimatePresence */}
       <AnimatePresence mode="wait">
+        {/* <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/game/:id" element={<GameDetail />} />
+        </Routes> */}
+      
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/game/:id" element={<GameDetail />} />
         </Routes>
-      </AnimatePresence>
+        </AnimatePresence>
     </div>
   );
 }

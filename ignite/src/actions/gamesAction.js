@@ -27,7 +27,7 @@ export const loadGames = () => async (dispatch) => {
     });
   } catch (error) {
     console.error("Error fetching games:", error);
-  }
+  };
 };
 
 // Action to search for a game

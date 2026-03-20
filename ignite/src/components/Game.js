@@ -1,4 +1,3 @@
-// src/components/Game.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -6,6 +5,8 @@ import { motion } from "framer-motion"; // ✅ keep this
 import { useDispatch } from "react-redux";
 import { loadDetail } from "../actions/detailAction";
 
+
+// src/components/Game.js - CORRECT ORDER
 const Game = ({ name, released, image, id }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,9 +19,7 @@ const Game = ({ name, released, image, id }) => {
 
   return (
     <StyledGame layoutId={id} onClick={handleClick}>
-      {/* ✅ Safe: use motion.h3 only if motion is imported (it is) */}
-      <motion.h3 layout>{name}</motion.h3>
-      <motion.p layout>{released}</motion.p>
+      {/* ✅ Image FIRST */}
       <motion.img
         layout
         src={
@@ -28,6 +27,10 @@ const Game = ({ name, released, image, id }) => {
         }
         alt={name}
       />
+      {/* ✅ Title SECOND */}
+      <motion.h3 layout>{name}</motion.h3>
+      {/* ✅ Date THIRD */}
+      <motion.p layout>{released}</motion.p>
     </StyledGame>
   );
 };
@@ -38,11 +41,25 @@ const StyledGame = styled(motion.div)`
   text-align: center;
   border-radius: 1rem;
   cursor: pointer;
+  overflow: hidden;  /* ✅ ADD THIS - keeps corners rounded */
+  display: flex;
+  flex-direction: column;  /* ✅ ADD THIS - stacks elements vertically */
+  
   img {
     width: 100%;
-    height: auto;
-    max-height: 200px;
+    height: 200px;
     object-fit: cover;
+  }
+  
+  h3 {
+    margin: 1rem 0 0.5rem 0;  /* ✅ ADD THIS - space above title */
+    padding: 0 1rem;
+  }
+  
+  p {
+    margin: 0 0 1rem 0;  /* ✅ ADD THIS - space below date */
+    padding: 0 1rem;
+    color: #666;
   }
 `;
 
