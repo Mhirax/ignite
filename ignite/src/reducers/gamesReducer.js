@@ -1,5 +1,3 @@
-// reducers/gamesReducer.js
-// INITIAL STATE - Now with searched array
 const initState = {
   popular: [],
   newGames: [],

@@ -4,11 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadGames } from "../actions/gamesAction";
 import Game from "../components/Game";
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Home = () => {
   const dispatch = useDispatch();
   const [featuredGame, setFeaturedGame] = useState(null);
+
+  // State for expanded sections
+  const [expandedSections, setExpandedSections] = useState({
+    upcoming: false,
+    popular: false,
+    new: false,
+  });
 
   useEffect(() => {
     dispatch(loadGames());
@@ -24,6 +31,20 @@ const Home = () => {
     }
   }, [popular]);
 
+  // Toggle section expansion
+  const toggleSection = (section) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
+  // Get display games based on expanded state
+  const getDisplayGames = (games, section) => {
+    if (!games) return [];
+    return expandedSections[section] ? games : games.slice(0, 4);
+  };
+
   return (
     <HomeContainer>
       {/* 🎯 HERO BANNER - WITH BACKGROUND GAME IMAGE */}
@@ -36,7 +57,7 @@ const Home = () => {
         >
           <HeroOverlay />
           <HeroContent>
-            <HeroBadge> FEATURED GAME</HeroBadge>
+            <HeroBadge>🔥 FEATURED GAME</HeroBadge>
             <HeroTitle>{featuredGame.name}</HeroTitle>
             <HeroDescription>
               {featuredGame.description_raw?.slice(0, 120)}...
@@ -47,8 +68,8 @@ const Home = () => {
               <StatChip>
                 🎮{" "}
                 {featuredGame.platforms
-                  ?.slice(0, 3)
-                  .map((p) => p.platform.name)
+                  ?.slice(0, 2)
+                  .map((p) => p.platform?.name)
                   .join(", ")}
               </StatChip>
             </HeroStats>
@@ -58,7 +79,7 @@ const Home = () => {
                   window.open(`/game/${featuredGame.id}`, "_blank")
                 }
               >
-                Play Now 
+                Play Now 🎮
               </PrimaryButton>
               <SecondaryButton
                 onClick={() =>
@@ -124,62 +145,82 @@ const Home = () => {
         <ErrorMessage>❌ Error searching games. Please try again.</ErrorMessage>
       )}
 
-      {/* UPCOMING GAMES */}
+      {/* UPCOMING GAMES SECTION */}
       <Section id="upcoming">
-        <SectionTitle>
-        
-          Upcoming Games
-        </SectionTitle>
-        <Games>
-          {upcoming.slice(0, 4).map((game) => (
-            <Game
-              name={game.name}
-              released={game.released}
-              id={String(game.id)}
-              image={game.background_image}
-              key={game.id}
-            />
-          ))}
-        </Games>
-        <ViewAllLink href="#upcoming">View All Upcoming →</ViewAllLink>
+        <SectionHeader>
+          <SectionTitle>
+            <TitleIcon>📅</TitleIcon>
+            Upcoming Games
+          </SectionTitle>
+          <ViewAllButton onClick={() => toggleSection("upcoming")}>
+            {expandedSections.upcoming ? "Show Less ↑" : "View All →"}
+          </ViewAllButton>
+        </SectionHeader>
+        <AnimatePresence>
+          <Games>
+            {getDisplayGames(upcoming, "upcoming").map((game) => (
+              <Game
+                name={game.name}
+                released={game.released}
+                id={String(game.id)}
+                image={game.background_image}
+                key={game.id}
+              />
+            ))}
+          </Games>
+        </AnimatePresence>
       </Section>
 
-      {/* POPULAR GAMES */}
+      {/* POPULAR GAMES SECTION */}
       <Section id="popular">
-        <SectionTitle>
-          Popular Games
-        </SectionTitle>
-        <Games>
-          {popular.slice(0, 4).map((game) => (
-            <Game
-              name={game.name}
-              released={game.released}
-              id={String(game.id)}
-              image={game.background_image}
-              key={game.id}
-            />
-          ))}
-        </Games>
-        <ViewAllLink href="#popular">View All Popular →</ViewAllLink>
+        <SectionHeader>
+          <SectionTitle>
+            <TitleIcon>🔥</TitleIcon>
+            Popular Games
+          </SectionTitle>
+          <ViewAllButton onClick={() => toggleSection("popular")}>
+            {expandedSections.popular ? "Show Less ↑" : "View All →"}
+          </ViewAllButton>
+        </SectionHeader>
+        <AnimatePresence>
+          <Games>
+            {getDisplayGames(popular, "popular").map((game) => (
+              <Game
+                name={game.name}
+                released={game.released}
+                id={String(game.id)}
+                image={game.background_image}
+                key={game.id}
+              />
+            ))}
+          </Games>
+        </AnimatePresence>
       </Section>
 
-      {/* NEW GAMES */}
+      {/* NEW GAMES SECTION */}
       <Section id="new">
-        <SectionTitle>
-          New Games
-        </SectionTitle>
-        <Games>
-          {newGames.slice(0, 4).map((game) => (
-            <Game
-              name={game.name}
-              released={game.released}
-              id={String(game.id)}
-              image={game.background_image}
-              key={game.id}
-            />
-          ))}
-        </Games>
-        <ViewAllLink href="#new">View All New Releases →</ViewAllLink>
+        <SectionHeader>
+          <SectionTitle>
+            <TitleIcon>🆕</TitleIcon>
+            New Games
+          </SectionTitle>
+          <ViewAllButton onClick={() => toggleSection("new")}>
+            {expandedSections.new ? "Show Less ↑" : "View All →"}
+          </ViewAllButton>
+        </SectionHeader>
+        <AnimatePresence>
+          <Games>
+            {getDisplayGames(newGames, "new").map((game) => (
+              <Game
+                name={game.name}
+                released={game.released}
+                id={String(game.id)}
+                image={game.background_image}
+                key={game.id}
+              />
+            ))}
+          </Games>
+        </AnimatePresence>
       </Section>
     </HomeContainer>
   );
@@ -403,18 +444,27 @@ const StatDivider = styled.span`
 // Section Styles
 const Section = styled.section`
   scroll-margin-top: 100px;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
+`;
+
+const SectionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 `;
 
 const SectionTitle = styled(motion.h1)`
   font-size: 2rem;
   font-weight: 700;
   color: #ff7676;
-  margin: 2.5rem 0 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.8rem;
   position: relative;
+  margin: 0;
 
   &:after {
     content: "";
@@ -436,6 +486,27 @@ const TitleIcon = styled.span`
   font-size: 1.5rem;
 `;
 
+const ViewAllButton = styled.button`
+  background: #f0f0f0;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ff7676;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  &:hover {
+    background: #ff7676;
+    color: white;
+    transform: translateX(3px);
+  }
+`;
+
 const ResultCount = styled.span`
   font-size: 0.9rem;
   background: #ff7676;
@@ -450,19 +521,6 @@ const Games = styled(motion.div)`
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 2rem;
   margin-bottom: 1rem;
-`;
-
-const ViewAllLink = styled.a`
-  display: inline-block;
-  color: #ff7676;
-  font-weight: 500;
-  margin-top: 0.5rem;
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const LoadingMessage = styled.div`
