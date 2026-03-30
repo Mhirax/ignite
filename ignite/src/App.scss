@@ -1,0 +1,53 @@
+/* Global Styles - Replaces GlobalStyles.js */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ff7676;
+    border-radius: 5px;
+  }
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  background: #f5f5f5;
+}
+
+h1 {
+  font-size: 3rem;
+  font-family: 'Abril Fatface', cursive;
+  font-weight: lighter;
+  color: #ff7676;
+}
+
+h3 {
+  font-size: 1.3rem;
+  color: #333;
+  padding: 0.7rem;
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #696969;
+  font-weight: 400;
+}
+
+a {
+  text-decoration: none;
+  color: #ff7676;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}

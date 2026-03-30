@@ -20,7 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/game/:id" element={<GameDetail />} />
         </Routes>
-        </AnimatePresence>
+      </AnimatePresence>
     </div>
   );
 }
