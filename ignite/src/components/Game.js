@@ -35,32 +35,32 @@ const Game = ({ name, released, image, id }) => {
   );
 };
 
-const StyledGame = styled(motion.div)`
-  min-height: 250px;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  border-radius: 1rem;
-  cursor: pointer;
-  overflow: hidden;  /* ✅ ADD THIS - keeps corners rounded */
-  display: flex;
-  flex-direction: column;  /* ✅ ADD THIS - stacks elements vertically */
+// const StyledGame = styled(motion.div)`
+//   min-height: 250px;
+//   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+//   text-align: center;
+//   border-radius: 1rem;
+//   cursor: pointer;
+//   overflow: hidden;  /* ✅ ADD THIS - keeps corners rounded */
+//   display: flex;
+//   flex-direction: column;  /* ✅ ADD THIS - stacks elements vertically */
   
-  img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
+//   img {
+//     width: 100%;
+//     height: 200px;
+//     object-fit: cover;
+//   }
   
-  h3 {
-    margin: 1rem 0 0.5rem 0;  /* ✅ ADD THIS - space above title */
-    padding: 0 1rem;
-  }
+//   h3 {
+//     margin: 1rem 0 0.5rem 0;  /* ✅ ADD THIS - space above title */
+//     padding: 0 1rem;
+//   }
   
-  p {
-    margin: 0 0 1rem 0;  /* ✅ ADD THIS - space below date */
-    padding: 0 1rem;
-    color: #666;
-  }
-`;
+//   p {
+//     margin: 0 0 1rem 0;  /* ✅ ADD THIS - space below date */
+//     padding: 0 1rem;
+//     color: #666;
+//   }
+// `;
 
 export default Game;

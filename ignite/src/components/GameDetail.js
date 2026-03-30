@@ -147,135 +147,135 @@ const GameDetail = () => {
 };
 
 // Styled Components
-const LoadingWrapper = styled.div`
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+// const LoadingWrapper = styled.div`
+//   min-height: 400px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// `;
 
-const Loading = styled.div`
-  font-size: 1.2rem;
-  color: #666;
-`;
+// const Loading = styled.div`
+//   font-size: 1.2rem;
+//   color: #666;
+// `;
 
-const CardShadow = styled(motion.div)`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  z-index: 100;
-  padding: 2rem 0;
-`;
+// const CardShadow = styled(motion.div)`
+//   position: fixed;
+//   inset: 0;
+//   background: rgba(0, 0, 0, 0.7);
+//   display: flex;
+//   flex-direction: column;
+//   overflow-y: auto;
+//   -webkit-overflow-scrolling: touch;
+//   z-index: 100;
+//   padding: 2rem 0;
+// `;
 
-const Detail = styled(motion.div)`
-  position: relative;
-  width: 80%;
-  max-width: 800px;
-  background: white;
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  margin: 0 auto;
-  min-height: fit-content;
+// const Detail = styled(motion.div)`
+//   position: relative;
+//   width: 80%;
+//   max-width: 800px;
+//   background: white;
+//   border-radius: 1rem;
+//   padding: 2rem;
+//   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+//   margin: 0 auto;
+//   min-height: fit-content;
 
-  img {
-    width: 100%;
-    height: auto;
-    max-height: 400px;
-    object-fit: cover;
-    display: block;
-    margin: 1rem 0;
-    border-radius: 0.5rem;
-  }
+//   img {
+//     width: 100%;
+//     height: auto;
+//     max-height: 400px;
+//     object-fit: cover;
+//     display: block;
+//     margin: 1rem 0;
+//     border-radius: 0.5rem;
+//   }
 
-  .gallery img {
-    max-height: 200px;
-  }
+//   .gallery img {
+//     max-height: 200px;
+//   }
 
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
+//   .gallery {
+//     display: grid;
+//     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+//     gap: 1rem;
+//     margin-top: 1.5rem;
+//   }
 
-  .description p {
-    line-height: 1.6;
-    white-space: pre-wrap;
-  }
+//   .description p {
+//     line-height: 1.6;
+//     white-space: pre-wrap;
+//   }
 
-  h2 {
-    margin: 0 0 0.6rem 0;
-    //game title
-    font-size: 1.6rem;
-    font-weight: 700;
-  }
+//   h2 {
+//     margin: 0 0 0.6rem 0;
+//     //game title
+//     font-size: 1.6rem;
+//     font-weight: 700;
+//   }
 
-  p {
-    margin: 0 0 0.3rem 0;
-    font-size: 1rem;
-    color: #555;
-  }
+//   p {
+//     margin: 0 0 0.3rem 0;
+//     font-size: 1rem;
+//     color: #555;
+//   }
 
-  /* ✅ PLATFORMS CORNER */
-  .platforms-corner {
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
-    background: transparent;
-  }
+//   /* ✅ PLATFORMS CORNER */
+//   .platforms-corner {
+//     position: absolute;
+//     top: 1rem;
+//     right: 2rem;
+//     background: transparent;
+//   }
 
-  .platforms-corner h3 {
-    margin: 0 0 0.4rem 0;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #777;
-    letter-spacing: 1px;
-  }
+//   .platforms-corner h3 {
+//     margin: 0 0 0.4rem 0;
+//     font-size: 0.85rem;
+//     font-weight: 700;
+//     text-transform: uppercase;
+//     color: #777;
+//     letter-spacing: 1px;
+//   }
 
-  /* ✅ ICONS STYLING */
-  .platform-icons {
-    display: flex;
-    gap: 0.6rem;
-    align-items: center;
-  }
+//   /* ✅ ICONS STYLING */
+//   .platform-icons {
+//     display: flex;
+//     gap: 0.6rem;
+//     align-items: center;
+//   }
 
-  .icon-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-  }
+//   .icon-wrapper {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 28px;
+//     height: 28px;
+//   }
 
-  .platform-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    filter: grayscale(80%);
-    transition:
-      filter 0.2s,
-      opacity 0.2s;
-    /* Ensure transparency */
-    background: transparent !important;
-    border: none !important;
-  }
+//   .platform-icon {
+//     width: 24px;
+//     height: 24px;
+//     object-fit: contain;
+//     filter: grayscale(80%);
+//     transition:
+//       filter 0.2s,
+//       opacity 0.2s;
+//     /* Ensure transparency */
+//     background: transparent !important;
+//     border: none !important;
+//   }
 
-  .platform-icon:hover {
-    filter: grayscale(0%);
-    opacity: 1;
-  }
+//   .platform-icon:hover {
+//     filter: grayscale(0%);
+//     opacity: 1;
+//   }
 
-  .no-screenshots {
-    grid-column: 1 / -1;
-    text-align: center;
-    color: #777;
-  }
-`;
+//   .no-screenshots {
+//     grid-column: 1 / -1;
+//     text-align: center;
+//     color: #777;
+//   }
+// `;
 
 export default GameDetail;

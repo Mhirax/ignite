@@ -1,0 +1,166 @@
+/* Game Detail Modal Styles */
+.game-detail {
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    z-index: 100;
+    padding: 2rem 0;
+  }
+
+  &__close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    background: #ff7676;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    z-index: 101;
+
+    &:hover {
+      background: #ff5f5f;
+    }
+  }
+
+  &__card {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    min-height: fit-content;
+
+    @media (max-width: 768px) {
+      width: 90%;
+      padding: 1.5rem;
+    }
+  }
+
+  &__platforms {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    background: transparent;
+
+    @media (max-width: 768px) {
+      top: 0.5rem;
+      right: 1rem;
+    }
+
+    h3 {
+      margin: 0 0 0.4rem 0;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #777;
+      letter-spacing: 1px;
+      text-align: right;
+      padding: 0;
+    }
+  }
+
+  &__platform-icons {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &__platform-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    filter: grayscale(80%);
+    transition: all 0.2s ease;
+
+    &:hover {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 0.6rem 0;
+    color: #333;
+
+    @media (max-width: 768px) {
+      font-size: 1.3rem;
+    }
+  }
+
+  &__rating {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  &__image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  &__description {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    white-space: pre-wrap;
+  }
+
+  &__screenshots-title {
+    font-size: 1.3rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  &__screenshots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  &__screenshot {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  &__loading {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      font-size: 1.2rem;
+      color: #666;
+    }
+  }
+
+  &__no-screenshots {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #777;
+  }
+}
