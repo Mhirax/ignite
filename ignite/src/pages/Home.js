@@ -57,17 +57,8 @@ const Home = () => {
           <div className="hero__content">
             {/* <span className="hero__badge">🔥 FEATURED GAME</span> */}
             <h1 className="hero__title">{featuredGame.name}</h1>
-            <h3>hhh</h3>
-            <div className="hero__stats">
-             
-              <span className="hero__stat">
-                <strong>📅 {featuredGame.released?.slice(0, 4)}</strong> Release
-              </span>
-              <span className="hero__stat">
-                <strong> {featuredGame.platforms?.length || 0}</strong>{" "}
-                Platforms
-              </span>
-            </div>
+            <h2 className="hero_desc">Explore a world of Games, without limits curated, seamless tailored to you </h2>
+          
             <div className="hero__buttons">
               <button
                 className="hero__btn-primary"
