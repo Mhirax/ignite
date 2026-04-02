@@ -1,14 +1,16 @@
-const initState = {
+// src/reducers/gamesReducer.js
+const initialState = {
   popular: [],
-  newGames: [],
   upcoming: [],
-  searched: [], // 🔍 NEW: For search results
-  searchLoading: false, // 🔍 NEW: Loading state for search
-  searchError: false, // 🔍 NEW: Error state for search
+  newGames: [],
+  searched: [],
+  filteredGames: [], // ← Add this for platform filtering
+  searchLoading: false,
+  searchError: false,
+  loading: false,
 };
 
-// REDUCER
-const gamesReducer = (state = initState, action) => {
+const gamesReducer = (state = initialState, action) => {
   switch (action.type) {
     case "FETCH_GAMES":
       return {
@@ -17,43 +19,42 @@ const gamesReducer = (state = initState, action) => {
         upcoming: action.payload.upcoming,
         newGames: action.payload.newGames,
       };
-
-    // 🔍 NEW: Loading search
+    case "SEARCH_GAMES":
+      return {
+        ...state,
+        searched: action.payload,
+        searchLoading: false,
+      };
     case "LOADING_SEARCH":
       return {
         ...state,
         searchLoading: true,
         searchError: false,
       };
-
-    // 🔍 NEW: Search successful
-    case "SEARCH_GAMES":
-      return {
-        ...state,
-        searched: action.payload,
-        searchLoading: false,
-        searchError: false,
-      };
-
-    // 🔍 NEW: Search error
     case "SEARCH_ERROR":
       return {
         ...state,
         searchLoading: false,
         searchError: true,
-        searched: [],
       };
-
-    // 🔍 NEW: Clear search (optional)
-    case "CLEAR_SEARCH":
+    case "LOADING_GAMES":
       return {
         ...state,
-        searched: [],
-        searchLoading: false,
+        loading: true,
       };
-
+    case "FILTER_GAMES":
+      return {
+        ...state,
+        filteredGames: action.payload,
+        loading: false,
+      };
+    case "FILTER_ERROR":
+      return {
+        ...state,
+        loading: false,
+      };
     default:
-      return { ...state };
+      return state;
   }
 };
 

@@ -7,12 +7,11 @@ import Home from "./pages/Home";
 import GameDetail from "./components/GameDetail";
 import Nav from "./components/Nav";
 //styles
-import GlobalStyles from "./components/GlobalStyles";
+import "./styles/App.scss" // ← Import global style
 
 function App() {
   return (
     <div className="App">
-      <GlobalStyles />
       <Nav />
       {/* 👇 Wrap Routes in AnimatePresence */}
       <AnimatePresence mode="wait">     

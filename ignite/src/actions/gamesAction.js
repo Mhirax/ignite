@@ -1,4 +1,4 @@
-// actions/gamesAction.js
+// src/actions/gamesAction.js
 import { popularGamesURL, upcomingGamesURL, newGamesURL } from "../api";
 
 // Action to load main game categories
@@ -27,7 +27,7 @@ export const loadGames = () => async (dispatch) => {
     });
   } catch (error) {
     console.error("Error fetching games:", error);
-  };
+  }
 };
 
 // Action to search for a game
@@ -53,14 +53,52 @@ export const searchGames = (gameName) => async (dispatch) => {
       type: "SEARCH_GAMES",
       payload: data.results,
     });
-  }
-  
-  
-  
-  catch (error) {
+  } catch (error) {
     console.error("Error searching games:", error);
     dispatch({
       type: "SEARCH_ERROR",
+    });
+  }
+};
+
+// Action to filter games by platform
+export const filterByPlatform = (platform) => async (dispatch) => {
+  dispatch({ type: "LOADING_GAMES" });
+
+  try {
+    let url;
+    switch (platform) {
+      case "pc":
+        url =
+          "https://api.rawg.io/api/games?platforms=1&ordering=-rating&page_size=12";
+        break;
+      case "playstation":
+        url =
+          "https://api.rawg.io/api/games?platforms=18,187&ordering=-rating&page_size=12";
+        break;
+      case "xbox":
+        url =
+          "https://api.rawg.io/api/games?platforms=1,186&ordering=-rating&page_size=12";
+        break;
+      case "nintendo":
+        url =
+          "https://api.rawg.io/api/games?platforms=7&ordering=-rating&page_size=12";
+        break;
+      default:
+        url = `https://api.rawg.io/api/games?ordering=-rating&page_size=12`;
+    }
+
+    const response = await fetch(`${url}&key=a29ef93a191743ff9869e602e14dc1bf`);
+    const data = await response.json();
+
+    dispatch({
+      type: "FILTER_GAMES",
+      payload: data.results,
+    });
+  } catch (error) {
+    console.error("Error filtering games:", error);
+    dispatch({
+      type: "FILTER_ERROR",
     });
   }
 };

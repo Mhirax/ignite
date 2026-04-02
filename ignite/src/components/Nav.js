@@ -1,14 +1,17 @@
 // src/components/Nav.js
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { searchGames } from "../actions/gamesAction";
-import styled from "styled-components";
+import { Search, Menu, X } from "lucide-react";
+import "./Nav.scss";
 
 const Nav = () => {
   const [searchInput, setSearchInput] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const menuRef = useRef(null);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -16,97 +19,128 @@ const Nav = () => {
       dispatch(searchGames(searchInput));
       navigate("/");
       setSearchInput("");
+      setIsMenuOpen(false);
     }
   };
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+      setIsMenuOpen(false);
+    }
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <NavBar>
-      <Logo onClick={() => navigate("/")}>IGNITE</Logo>
-      <SearchForm onSubmit={handleSearch}>
-        <SearchInput
-          type="text"
-          placeholder="Search games..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-        />
-        <SearchButton type="submit">Search</SearchButton>
-      </SearchForm>
-    </NavBar>
+    <nav className="nav">
+      <div className="nav__container">
+        {/* Logo - Left */}
+        <div className="nav__logo" onClick={() => navigate("/")}>
+          <span className="nav__logo-ign">IGN</span>
+          <span className="nav__logo-ite">ITE</span>
+        </div>
+
+        {/* Search Form - Center */}
+        <form className="nav__form" onSubmit={handleSearch}>
+          <div className="nav__search-wrapper">
+            <Search className="nav__search-icon" size={16} strokeWidth={1.5} />
+            <input
+              type="text"
+              className="nav__input"
+              placeholder="Search games..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+          </div>
+        </form>
+
+        {/* Desktop Navigation Links - Right */}
+        <div className="nav__links">
+          <button
+            className="nav__link"
+            onClick={() => scrollToSection("popular")}
+          >
+            Popular
+          </button>
+          <button
+            className="nav__link"
+            onClick={() => scrollToSection("upcoming")}
+          >
+            Upcoming
+          </button>
+          <button className="nav__link" onClick={() => scrollToSection("new")}>
+            New Games
+          </button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="nav__menu-btn"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? (
+            <X size={20} strokeWidth={1.5} />
+          ) : (
+            <Menu size={20} strokeWidth={1.5} />
+          )}
+        </button>
+
+        {/* Mobile Menu */}
+        <div
+          className={`nav__mobile-menu ${isMenuOpen ? "nav__mobile-menu--open" : ""}`}
+          ref={menuRef}
+        >
+          <div className="nav__mobile-links">
+            <button
+              className="nav__mobile-link"
+              onClick={() => scrollToSection("popular")}
+            >
+              Popular
+            </button>
+            <button
+              className="nav__mobile-link"
+              onClick={() => scrollToSection("upcoming")}
+            >
+              Upcoming
+            </button>
+            <button
+              className="nav__mobile-link"
+              onClick={() => scrollToSection("new")}
+            >
+              New Games
+            </button>
+          </div>
+          <form className="nav__mobile-form" onSubmit={handleSearch}>
+            <div className="nav__search-wrapper">
+              <Search
+                className="nav__search-icon"
+                size={16}
+                strokeWidth={1.5}
+              />
+              <input
+                type="text"
+                className="nav__input"
+                placeholder="Search games..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
   );
 };
-
-// const NavBar = styled.nav`
-//   background: linear-gradient(135deg, #b63737 0%, #ff4f4f 100%);
-//   padding: 1rem 2rem;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-//   position: sticky;
-//   top: 0;
-//   z-index: 100;
-
-//   @media (max-width: 768px) {
-//     flex-direction: column;
-//     gap: 1rem;
-//     padding: 1rem;
-//   }
-// `;
-
-// const Logo = styled.div`
-//   color: white;
-//   font-size: 1.8rem;
-//   font-weight: bold;
-//   cursor: pointer;
-//   letter-spacing: 1px;
-
-//   &:hover {
-//     transform: scale(1.02);
-//   }
-// `;
-
-// const SearchForm = styled.form`
-//   display: flex;
-//   gap: 0.5rem;
-
-//   @media (max-width: 768px) {
-//     width: 100%;
-//   }
-// `;
-
-// const SearchInput = styled.input`
-//   padding: 0.8rem 1.2rem;
-//   font-size: 1rem;
-//   border: none;
-//   border-radius: 30px;
-//   width: 300px;
-//   outline: none;
-//   background: white;
-
-//   &:focus {
-//     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
-//   }
-
-//   @media (max-width: 768px) {
-//     width: 100%;
-//   }
-// `;
-
-// const SearchButton = styled.button`
-//   padding: 0.8rem 1.5rem;
-//   font-size: 1rem;
-//   background: #333;
-//   color: white;
-//   border: none;
-//   border-radius: 30px;
-//   cursor: pointer;
-//   transition: all 0.3s ease;
-//   font-weight: 600;
-
-//   &:hover {
-//     background: #555;
-//     transform: translateY(-2px);
-//   }
-// `;
 
 export default Nav;
