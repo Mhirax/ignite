@@ -29,7 +29,7 @@
     align-items: baseline;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 600;
     letter-spacing: -0.3px;
     transition: opacity 0.2s ease;
@@ -104,7 +104,7 @@
   // Desktop Navigation Links - RIGHT
   &__links {
     display: flex;
-    gap: 1.75rem;
+    gap: 1rem;
     align-items: center;
     flex-shrink: 0;
 
@@ -121,9 +121,9 @@
     background: transparent;
     color: #e0e0e0;
     border: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 500;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
     letter-spacing: -0.2px;
     cursor: pointer;
     transition: color 0.2s ease;

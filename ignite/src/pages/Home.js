@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loadGames } from "../actions/gamesAction";
 import Game from "../components/Game";
-import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./Home.scss";
 
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [featuredGame, setFeaturedGame] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [heroSlides, setHeroSlides] = useState([]);
+  const [isHovering, setIsHovering] = useState(false);
   const [expandedSections, setExpandedSections] = useState({
     upcoming: false,
     popular: false,
@@ -24,11 +26,78 @@ const Home = () => {
   const { popular, newGames, upcoming, searched, searchLoading, searchError } =
     useSelector((state) => state.games);
 
+  // ✨ REPLACED: Now using MANUAL hero data instead of popular games
   useEffect(() => {
-    if (popular && popular.length > 0) {
-      setFeaturedGame(popular[0]);
-    }
-  }, [popular]);
+    // 👇 EDIT YOUR HERO GAMES HERE - Add/Remove/Modify as you want
+    const manualHeroSlides = [
+      {
+        id: 3498,
+        title: "Grand Theft Auto V",
+        description:
+          "Los Santos - a sprawling sun-soaked metropolis full of self-help gurus, starlets and fading celebrities. Enter a world of crime and chaos.",
+        backgroundImage: "https://images7.alphacoders.com/439/439636.jpg",
+      },
+      // {
+      //   id: 3328,
+      //   title: "The Witcher 3: Wild Hunt",
+      //   description:
+      //     "You are Geralt of Rivia, a monster hunter for hire. The world is at war, and monsters roam free in this dark fantasy epic.",
+      //   backgroundImage:
+      //     "http://hdqwalls.com/wallpapers/the-witcher-3-wild-hunt-4.jpg",
+      // },
+      {
+        id: 28,
+        title: "Red Dead Redemption 2",
+        description:
+          "America, 1899. The end of the Wild West era has begun. After a robbery goes wrong, Arthur Morgan must choose between his own ideals and loyalty to the gang.",
+        backgroundImage:
+          "https://wallpapers.com/images/hd/red-dead-redemption-2-full-hd-89a419dquungxzai.jpg",
+      },
+      {
+        id: 5679,
+        title: "Elden Ring",
+        description:
+          "The critically acclaimed action RPG from Hidetaka Miyazaki and George R.R. Martin. Explore the Lands Between and become the Elden Lord.",
+        backgroundImage:
+          "https://wallpapers.com/images/hd/elden-ring-game-scenery-u6f65ngdqukwsshd.jpg",
+      },
+      {
+        id: 41494,
+        title: "Cyberpunk 2077",
+        description:
+          "Cyberpunk 2077 is an open-world, action-adventure story set in Night City, a megalopolis obsessed with power, glamour and body modification.",
+        backgroundImage:
+          "https://images.hdqwalls.com/wallpapers/cyberpunk-2077-phantom-liberty-game-2025-b7.jpg",
+      },
+    ];
+
+    setHeroSlides(manualHeroSlides);
+  }, []); // Empty dependency array - runs only once when page loads
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (heroSlides.length === 0 || isHovering) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [heroSlides.length, isHovering]);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide(
+      (prev) => (prev - 1 + heroSlides.length) % heroSlides.length,
+    );
+  };
 
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({
@@ -42,39 +111,66 @@ const Home = () => {
     return expandedSections[section] ? games : games.slice(0, 4);
   };
 
+  const currentGame = heroSlides[currentSlide];
+
   return (
     <div className="home">
-      {/* Hero Banner - Full Width */}
-      {featuredGame && (
-        <motion.div
-          className="hero"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          style={{ backgroundImage: `url(${featuredGame.background_image})` }}
-        >
-          <div className="hero__overlay" />
-          <div className="hero__content">
-            {/* <span className="hero__badge">🔥 FEATURED GAME</span> */}
-            <h1 className="hero__title">{featuredGame.name}</h1>
-            <h2 className="hero_desc">Explore a world of Games, without limits curated, seamless tailored to you </h2>
-          
-            <div className="hero__buttons">
+      {/* Hero Carousel Section */}
+      <div
+        className="hero-carousel"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
+        {heroSlides.length > 0 && currentGame && (
+          <div
+            className="hero-slide"
+            style={{ backgroundImage: `url(${currentGame.backgroundImage})` }}
+          >
+            <div className="hero-slide__overlay"></div>
+            <div className="hero-slide__content">
+              <h1 className="hero-slide__title">{currentGame.title}</h1>
+
+              <p className="hero-slide__description">
+                {currentGame.description}
+              </p>
               <button
-                className="hero__btn-primary"
-                onClick={() => navigate(`/game/${featuredGame.id}`)}
+                className="hero-slide__button"
+                onClick={() => navigate(`/game/${currentGame.id}`)}
               >
-                Play Now 
+                Explore
               </button>
             </div>
           </div>
-        </motion.div>
-      )}
+        )}
 
-      {/* Rest of content inside container */}
+        {/* Navigation Arrows */}
+        {heroSlides.length > 1 && (
+          <>
+            <button className="hero-carousel__prev" onClick={prevSlide}>
+              <ChevronLeft size={24} strokeWidth={1.5} />
+            </button>
+            <button className="hero-carousel__next" onClick={nextSlide}>
+              <ChevronRight size={24} strokeWidth={1.5} />
+            </button>
+          </>
+        )}
+
+        {/* Pagination Dots */}
+        {heroSlides.length > 1 && (
+          <div className="hero-carousel__dots">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                className={`hero-carousel__dot ${currentSlide === index ? "hero-carousel__dot--active" : ""}`}
+                onClick={() => goToSlide(index)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Main Container for all content */}
       <div className="home__container">
-   
-
         {/* SEARCH RESULTS SECTION */}
         {searched.length > 0 && (
           <>
