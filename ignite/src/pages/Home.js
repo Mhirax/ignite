@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { loadGames } from "../actions/gamesAction";
 import Game from "../components/Game";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import PlatformFilter from "../components/platformFilter"; // 👈 NEW
+import PlatformGames from "../components/platformGames"; // 👈 NEW
 import "./Home.scss";
 
 const Home = () => {
@@ -170,6 +172,12 @@ const Home = () => {
 
       {/* Main Container for all content */}
       <div className="home__container">
+        {/* ============================================ */}
+        {/* 🎮 NEW: PLATFORM SECTION - ADDED HERE */}
+        {/* ============================================ */}
+        <PlatformFilter />
+        <PlatformGames />
+
         {/* SEARCH RESULTS SECTION */}
         {searched.length > 0 && (
           <>
