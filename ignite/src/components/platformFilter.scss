@@ -1,0 +1,61 @@
+// src/components/PlatformFilter.scss
+.platform-filter {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #1a1a1a;
+  border-radius: 16px;
+  
+  &__title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #888;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+  }
+  
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #ccc;
+    
+    &:hover {
+      background: #3a3a3a;
+      border-color: #ff3b3b;
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    &--active {
+      background: #ff3b3b;
+      border-color: #ff3b3b;
+      color: white;
+      
+      &:hover {
+        background: #ff5555;
+      }
+    }
+    
+    &-icon {
+      font-size: 1rem;
+    }
+    
+    &-name {
+      font-size: 0.85rem;
+    }
+  }
+}
