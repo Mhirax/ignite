@@ -21,7 +21,7 @@ import {
   fetchAndroidUpcoming,
   fetchAndroidNew,
 } from "../actions/gamesAction";
-import "./PlatformFilter.scss";
+import "./platformFilter.scss";
 
 const PlatformFilter = () => {
   const dispatch = useDispatch();

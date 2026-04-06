@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Game from "../components/Game";
-import PlatformFilter from "../components/PlatformFilter";
-import PlatformSection from "../components/PlatformSection";
+import PlatformFilter from "../components/platformFilter";
+import PlatformSection from "../components/platformSection";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./Home.scss";
 

@@ -1,8 +1,9 @@
 // src/components/PlatformSection.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import Game from "./Game";
-import "./PlatformSection.scss";
+import GameCard from "./GameCard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import "./platformSection.scss";
 
 const PlatformSection = () => {
   const { platformPopular, platformUpcoming, platformNew, activePlatform } =
@@ -12,6 +13,12 @@ const PlatformSection = () => {
     upcoming: false,
     new: false,
   });
+
+  const scrollContainers = {
+    popular: useRef(null),
+    upcoming: useRef(null),
+    new: useRef(null),
+  };
 
   const currentPopular = platformPopular[activePlatform];
   const currentUpcoming = platformUpcoming[activePlatform];
@@ -27,43 +34,76 @@ const PlatformSection = () => {
   };
 
   const getDisplayGames = (games, section) => {
-    if (!games) return [];
-    return expandedSections[section] ? games : games.slice(0, 4);
+    if (!games || !games.games) return [];
+    return expandedSections[section] ? games.games : games.games.slice(0, 8);
   };
 
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
-  const Section = ({ title, icon, data, type }) => {
+  const scroll = (direction, section) => {
+    const container = scrollContainers[section].current;
+    if (container) {
+      const scrollAmount = direction === "left" ? -400 : 400;
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
+  const Section = ({ title, icon, data, type, accentColor }) => {
     if (data?.loading) {
       return (
-        <div className="platform-section__loading">
-          <div className="platform-section__spinner"></div>
-          <p>Loading {title}...</p>
+        <div className="platform-section__category">
+          <div className="platform-section__header">
+            <div className="platform-section__title-wrapper">
+              <span className="platform-section__title-icon">{icon}</span>
+              <h2 className="platform-section__title">
+                {title} {platformNames[activePlatform]} Games
+              </h2>
+            </div>
+          </div>
+          <div className="platform-section__loading">
+            <div className="platform-section__spinner"></div>
+          </div>
         </div>
       );
     }
 
     if (data?.error) {
       return (
-        <div className="platform-section__error">
-          <p>❌ Failed to load {title}</p>
+        <div className="platform-section__category">
+          <div className="platform-section__header">
+            <div className="platform-section__title-wrapper">
+              <span className="platform-section__title-icon">{icon}</span>
+              <h2 className="platform-section__title">
+                {title} {platformNames[activePlatform]} Games
+              </h2>
+            </div>
+          </div>
+          <div className="platform-section__error">
+            <p>❌ Failed to load {title.toLowerCase()} games</p>
+          </div>
         </div>
       );
     }
 
     const games = data?.games || [];
-    const displayGames = getDisplayGames(games, type);
+    const displayGames = getDisplayGames(data, type);
+    const showArrows = displayGames.length > 4;
 
     return (
       <div className="platform-section__category">
         <div className="platform-section__header">
-          <h2 className="platform-section__title">
+          <div
+            className="platform-section__title-wrapper"
+            style={{ borderLeftColor: accentColor }}
+          >
             <span className="platform-section__title-icon">{icon}</span>
-            {title} {platformNames[activePlatform]} Games
-          </h2>
-          {games.length > 4 && (
+            <h2 className="platform-section__title">
+              {title} {platformNames[activePlatform]} Games
+            </h2>
+          </div>
+          {games.length > 8 && (
             <button
               className="platform-section__view-all"
               onClick={() => toggleSection(type)}
@@ -72,16 +112,40 @@ const PlatformSection = () => {
             </button>
           )}
         </div>
-        <div className="platform-section__grid">
-          {displayGames.map((game) => (
-            <Game
-              key={game.id}
-              name={game.name}
-              released={game.released}
-              id={String(game.id)}
-              image={game.background_image}
-            />
-          ))}
+
+        <div className="platform-section__carousel-wrapper">
+          {showArrows && (
+            <button
+              className="platform-section__arrow platform-section__arrow--left"
+              onClick={() => scroll("left", type)}
+            >
+              <ChevronLeft size={32} strokeWidth={1.5} />
+            </button>
+          )}
+
+          <div
+            className="platform-section__carousel"
+            ref={scrollContainers[type]}
+          >
+            {displayGames.map((game) => (
+              <GameCard
+                key={game.id}
+                id={game.id}
+                title={game.name}
+                image={game.background_image}
+                accentColor={accentColor}
+              />
+            ))}
+          </div>
+
+          {showArrows && (
+            <button
+              className="platform-section__arrow platform-section__arrow--right"
+              onClick={() => scroll("right", type)}
+            >
+              <ChevronRight size={32} strokeWidth={1.5} />
+            </button>
+          )}
         </div>
       </div>
     );
@@ -89,14 +153,27 @@ const PlatformSection = () => {
 
   return (
     <div className="platform-section">
-      <Section title="Popular" icon="🔥" data={currentPopular} type="popular" />
       <Section
-        title="Upcoming"
+        title="POPULAR"
+        icon="🔥"
+        data={currentPopular}
+        type="popular"
+        accentColor="#ff3b3b"
+      />
+      <Section
+        title="UPCOMING"
         icon="📅"
         data={currentUpcoming}
         type="upcoming"
+        accentColor="#3b82f6"
       />
-      <Section title="New" icon="🆕" data={currentNew} type="new" />
+      <Section
+        title="NEW GAMES"
+        icon="🆕"
+        data={currentNew}
+        type="new"
+        accentColor="#10b981"
+      />
     </div>
   );
 };
