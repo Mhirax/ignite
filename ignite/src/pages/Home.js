@@ -26,7 +26,6 @@ const Home = () => {
   const { popular, newGames, upcoming, searched, searchLoading, searchError } =
     useSelector((state) => state.games);
 
-  // ✨ REPLACED: Now using MANUAL hero data instead of popular games
   useEffect(() => {
     // 👇 EDIT YOUR HERO GAMES HERE - Add/Remove/Modify as you want
     const manualHeroSlides = [
