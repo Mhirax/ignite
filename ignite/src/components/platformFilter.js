@@ -1,47 +1,104 @@
-// src/components/PlatformFilter.js
+// src/components/PlatformFilter.jsx
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchPCGames,
-  fetchPlaystationGames,
-  fetchXboxGames,
-  fetchNintendoGames,
-  fetchIosGames,
-  fetchAndroidGames,
+  fetchPCPopular,
+  fetchPCUpcoming,
+  fetchPCNew,
+  fetchPSPopular,
+  fetchPSUpcoming,
+  fetchPSNew,
+  fetchXboxPopular,
+  fetchXboxUpcoming,
+  fetchXboxNew,
+  fetchNintendoPopular,
+  fetchNintendoUpcoming,
+  fetchNintendoNew,
+  fetchIosPopular,
+  fetchIosUpcoming,
+  fetchIosNew,
+  fetchAndroidPopular,
+  fetchAndroidUpcoming,
+  fetchAndroidNew,
 } from "../actions/gamesAction";
-import "./platformFilter.scss";
+import "./PlatformFilter.scss";
 
 const PlatformFilter = () => {
   const dispatch = useDispatch();
-  const { activePlatform, platformGames } = useSelector((state) => state.games);
+  const { activePlatform } = useSelector((state) => state.games);
 
   const platforms = [
-    { id: "pc", name: "PC", icon: "💻", action: fetchPCGames },
+    {
+      id: "pc",
+      name: "PC",
+      icon: "💻",
+      actions: {
+        popular: fetchPCPopular,
+        upcoming: fetchPCUpcoming,
+        new: fetchPCNew,
+      },
+    },
     {
       id: "playstation",
       name: "PlayStation",
       icon: "🎮",
-      action: fetchPlaystationGames,
+      actions: {
+        popular: fetchPSPopular,
+        upcoming: fetchPSUpcoming,
+        new: fetchPSNew,
+      },
     },
-    { id: "xbox", name: "Xbox", icon: "🟢", action: fetchXboxGames },
+    {
+      id: "xbox",
+      name: "Xbox",
+      icon: "🟢",
+      actions: {
+        popular: fetchXboxPopular,
+        upcoming: fetchXboxUpcoming,
+        new: fetchXboxNew,
+      },
+    },
     {
       id: "nintendo",
       name: "Nintendo",
       icon: "🍎",
-      action: fetchNintendoGames,
+      actions: {
+        popular: fetchNintendoPopular,
+        upcoming: fetchNintendoUpcoming,
+        new: fetchNintendoNew,
+      },
     },
-    { id: "ios", name: "iOS", icon: "📱", action: fetchIosGames },
-    { id: "android", name: "Android", icon: "🤖", action: fetchAndroidGames },
+    {
+      id: "ios",
+      name: "iOS",
+      icon: "📱",
+      actions: {
+        popular: fetchIosPopular,
+        upcoming: fetchIosUpcoming,
+        new: fetchIosNew,
+      },
+    },
+    {
+      id: "android",
+      name: "Android",
+      icon: "🤖",
+      actions: {
+        popular: fetchAndroidPopular,
+        upcoming: fetchAndroidUpcoming,
+        new: fetchAndroidNew,
+      },
+    },
   ];
 
   const handlePlatformClick = (platform) => {
-    dispatch(platform.action());
+    dispatch(platform.actions.popular());
+    dispatch(platform.actions.upcoming());
+    dispatch(platform.actions.new());
   };
 
   return (
     <div className="platform-filter">
-      <h3 className="platform-filter__title">Filter by Platform</h3>
-      <div className="platform-filter__buttons">
+      <div className="platform-filter__wrapper">
         {platforms.map((platform) => (
           <button
             key={platform.id}
