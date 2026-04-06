@@ -4,10 +4,21 @@ const initialState = {
   upcoming: [],
   newGames: [],
   searched: [],
-  filteredGames: [], // ← Add this for platform filtering
   searchLoading: false,
   searchError: false,
   loading: false,
+  // ============================================
+  // 🎮 NEW: Platform games state
+  // ============================================
+  platformGames: {
+    pc: { games: [], loading: false, error: false },
+    playstation: { games: [], loading: false, error: false },
+    xbox: { games: [], loading: false, error: false },
+    nintendo: { games: [], loading: false, error: false },
+    ios: { games: [], loading: false, error: false },
+    android: { games: [], loading: false, error: false },
+  },
+  activePlatform: "pc", // Currently selected platform
 };
 
 const gamesReducer = (state = initialState, action) => {
@@ -19,40 +30,77 @@ const gamesReducer = (state = initialState, action) => {
         upcoming: action.payload.upcoming,
         newGames: action.payload.newGames,
       };
+
     case "SEARCH_GAMES":
       return {
         ...state,
         searched: action.payload,
         searchLoading: false,
       };
+
     case "LOADING_SEARCH":
       return {
         ...state,
         searchLoading: true,
         searchError: false,
       };
+
     case "SEARCH_ERROR":
       return {
         ...state,
         searchLoading: false,
         searchError: true,
       };
-    case "LOADING_GAMES":
+
+    // ============================================
+    // 🎮 NEW: Platform games reducers
+    // ============================================
+    case "LOADING_PLATFORM_GAMES":
       return {
         ...state,
-        loading: true,
+        platformGames: {
+          ...state.platformGames,
+          [action.payload]: {
+            ...state.platformGames[action.payload],
+            loading: true,
+            error: false,
+          },
+        },
       };
-    case "FILTER_GAMES":
+
+    case "FETCH_PLATFORM_GAMES":
       return {
         ...state,
-        filteredGames: action.payload,
-        loading: false,
+        platformGames: {
+          ...state.platformGames,
+          [action.payload.platform]: {
+            games: action.payload.games,
+            loading: false,
+            error: false,
+          },
+        },
+        activePlatform: action.payload.platform,
       };
-    case "FILTER_ERROR":
+
+    case "PLATFORM_ERROR":
       return {
         ...state,
-        loading: false,
+        platformGames: {
+          ...state.platformGames,
+          [action.payload]: {
+            ...state.platformGames[action.payload],
+            loading: false,
+            error: true,
+          },
+        },
       };
+
+    case "SET_ACTIVE_PLATFORM":
+      return {
+        ...state,
+        activePlatform: action.payload,
+      };
+
     default:
       return state;
   }
