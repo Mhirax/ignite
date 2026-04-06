@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPCGames } from "../actions/gamesAction";
 import Game from "./Game";
-import "./PlatformGames.scss";
+import "./platformGames.scss";
 
 const PlatformGames = () => {
   const dispatch = useDispatch();
