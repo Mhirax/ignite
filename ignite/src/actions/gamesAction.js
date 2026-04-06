@@ -1,148 +1,298 @@
 // src/actions/gamesAction.js
 import {
-  popularGamesURL,
-  upcomingGamesURL,
-  newGamesURL,
-  pcGamesURL,
-  playstationGamesURL,
-  xboxGamesURL,
-  nintendoGamesURL,
-  iosGamesURL,
-  androidGamesURL,
+  pcPopularURL,
+  pcUpcomingURL,
+  pcNewURL,
+  psPopularURL,
+  psUpcomingURL,
+  psNewURL,
+  xboxPopularURL,
+  xboxUpcomingURL,
+  xboxNewURL,
+  nintendoPopularURL,
+  nintendoUpcomingURL,
+  nintendoNewURL,
+  iosPopularURL,
+  iosUpcomingURL,
+  iosNewURL,
+  androidPopularURL,
+  androidUpcomingURL,
+  androidNewURL,
+  searchURL,
 } from "../api";
 
-// Existing loadGames function (keep as is)
-export const loadGames = () => async (dispatch) => {
-  try {
-    const popularRes = await fetch(popularGamesURL());
-    const popularData = await popularRes.json();
-
-    const upcomingRes = await fetch(upcomingGamesURL());
-    const upcomingData = await upcomingRes.json();
-
-    const newGamesRes = await fetch(newGamesURL());
-    const newGamesData = await newGamesRes.json();
-
-    dispatch({
-      type: "FETCH_GAMES",
-      payload: {
-        popular: popularData.results,
-        upcoming: upcomingData.results,
-        newGames: newGamesData.results,
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching games:", error);
-  }
-};
-
 // ============================================
-// 🎮 NEW: Platform-specific actions
+// PLATFORM-SPECIFIC FETCH ACTIONS
 // ============================================
 
-export const fetchPCGames = () => async (dispatch) => {
-  dispatch({ type: "LOADING_PLATFORM_GAMES", payload: "pc" });
+// ----- PC -----
+export const fetchPCPopular = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "pc" });
   try {
-    const response = await fetch(pcGamesURL());
-    const data = await response.json();
+    const res = await fetch(pcPopularURL());
+    const data = await res.json();
     dispatch({
-      type: "FETCH_PLATFORM_GAMES",
+      type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "pc", games: data.results },
     });
   } catch (error) {
-    console.error("Error fetching PC games:", error);
-    dispatch({ type: "PLATFORM_ERROR", payload: "pc" });
+    dispatch({ type: "PLATFORM_POPULAR_ERROR", payload: "pc" });
   }
 };
 
-export const fetchPlaystationGames = () => async (dispatch) => {
-  dispatch({ type: "LOADING_PLATFORM_GAMES", payload: "playstation" });
+export const fetchPCUpcoming = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "pc" });
   try {
-    const response = await fetch(playstationGamesURL());
-    const data = await response.json();
+    const res = await fetch(pcUpcomingURL());
+    const data = await res.json();
     dispatch({
-      type: "FETCH_PLATFORM_GAMES",
+      type: "FETCH_PLATFORM_UPCOMING",
+      payload: { platform: "pc", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_UPCOMING_ERROR", payload: "pc" });
+  }
+};
+
+export const fetchPCNew = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_NEW", payload: "pc" });
+  try {
+    const res = await fetch(pcNewURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_NEW",
+      payload: { platform: "pc", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_NEW_ERROR", payload: "pc" });
+  }
+};
+
+// ----- PlayStation -----
+export const fetchPSPopular = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "playstation" });
+  try {
+    const res = await fetch(psPopularURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "playstation", games: data.results },
     });
   } catch (error) {
-    console.error("Error fetching PlayStation games:", error);
-    dispatch({ type: "PLATFORM_ERROR", payload: "playstation" });
+    dispatch({ type: "PLATFORM_POPULAR_ERROR", payload: "playstation" });
   }
 };
 
-export const fetchXboxGames = () => async (dispatch) => {
-  dispatch({ type: "LOADING_PLATFORM_GAMES", payload: "xbox" });
+export const fetchPSUpcoming = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "playstation" });
   try {
-    const response = await fetch(xboxGamesURL());
-    const data = await response.json();
+    const res = await fetch(psUpcomingURL());
+    const data = await res.json();
     dispatch({
-      type: "FETCH_PLATFORM_GAMES",
+      type: "FETCH_PLATFORM_UPCOMING",
+      payload: { platform: "playstation", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_UPCOMING_ERROR", payload: "playstation" });
+  }
+};
+
+export const fetchPSNew = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_NEW", payload: "playstation" });
+  try {
+    const res = await fetch(psNewURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_NEW",
+      payload: { platform: "playstation", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_NEW_ERROR", payload: "playstation" });
+  }
+};
+
+// ----- Xbox -----
+export const fetchXboxPopular = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "xbox" });
+  try {
+    const res = await fetch(xboxPopularURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "xbox", games: data.results },
     });
   } catch (error) {
-    console.error("Error fetching Xbox games:", error);
-    dispatch({ type: "PLATFORM_ERROR", payload: "xbox" });
+    dispatch({ type: "PLATFORM_POPULAR_ERROR", payload: "xbox" });
   }
 };
 
-export const fetchNintendoGames = () => async (dispatch) => {
-  dispatch({ type: "LOADING_PLATFORM_GAMES", payload: "nintendo" });
+export const fetchXboxUpcoming = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "xbox" });
   try {
-    const response = await fetch(nintendoGamesURL());
-    const data = await response.json();
+    const res = await fetch(xboxUpcomingURL());
+    const data = await res.json();
     dispatch({
-      type: "FETCH_PLATFORM_GAMES",
+      type: "FETCH_PLATFORM_UPCOMING",
+      payload: { platform: "xbox", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_UPCOMING_ERROR", payload: "xbox" });
+  }
+};
+
+export const fetchXboxNew = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_NEW", payload: "xbox" });
+  try {
+    const res = await fetch(xboxNewURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_NEW",
+      payload: { platform: "xbox", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_NEW_ERROR", payload: "xbox" });
+  }
+};
+
+// ----- Nintendo -----
+export const fetchNintendoPopular = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "nintendo" });
+  try {
+    const res = await fetch(nintendoPopularURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "nintendo", games: data.results },
     });
   } catch (error) {
-    console.error("Error fetching Nintendo games:", error);
-    dispatch({ type: "PLATFORM_ERROR", payload: "nintendo" });
+    dispatch({ type: "PLATFORM_POPULAR_ERROR", payload: "nintendo" });
   }
 };
 
-export const fetchIosGames = () => async (dispatch) => {
-  dispatch({ type: "LOADING_PLATFORM_GAMES", payload: "ios" });
+export const fetchNintendoUpcoming = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "nintendo" });
   try {
-    const response = await fetch(iosGamesURL());
-    const data = await response.json();
+    const res = await fetch(nintendoUpcomingURL());
+    const data = await res.json();
     dispatch({
-      type: "FETCH_PLATFORM_GAMES",
+      type: "FETCH_PLATFORM_UPCOMING",
+      payload: { platform: "nintendo", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_UPCOMING_ERROR", payload: "nintendo" });
+  }
+};
+
+export const fetchNintendoNew = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_NEW", payload: "nintendo" });
+  try {
+    const res = await fetch(nintendoNewURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_NEW",
+      payload: { platform: "nintendo", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_NEW_ERROR", payload: "nintendo" });
+  }
+};
+
+// ----- iOS -----
+export const fetchIosPopular = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "ios" });
+  try {
+    const res = await fetch(iosPopularURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "ios", games: data.results },
     });
   } catch (error) {
-    console.error("Error fetching iOS games:", error);
-    dispatch({ type: "PLATFORM_ERROR", payload: "ios" });
+    dispatch({ type: "PLATFORM_POPULAR_ERROR", payload: "ios" });
   }
 };
 
-export const fetchAndroidGames = () => async (dispatch) => {
-  dispatch({ type: "LOADING_PLATFORM_GAMES", payload: "android" });
+export const fetchIosUpcoming = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "ios" });
   try {
-    const response = await fetch(androidGamesURL());
-    const data = await response.json();
+    const res = await fetch(iosUpcomingURL());
+    const data = await res.json();
     dispatch({
-      type: "FETCH_PLATFORM_GAMES",
+      type: "FETCH_PLATFORM_UPCOMING",
+      payload: { platform: "ios", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_UPCOMING_ERROR", payload: "ios" });
+  }
+};
+
+export const fetchIosNew = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_NEW", payload: "ios" });
+  try {
+    const res = await fetch(iosNewURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_NEW",
+      payload: { platform: "ios", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_NEW_ERROR", payload: "ios" });
+  }
+};
+
+// ----- Android -----
+export const fetchAndroidPopular = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "android" });
+  try {
+    const res = await fetch(androidPopularURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "android", games: data.results },
     });
   } catch (error) {
-    console.error("Error fetching Android games:", error);
-    dispatch({ type: "PLATFORM_ERROR", payload: "android" });
+    dispatch({ type: "PLATFORM_POPULAR_ERROR", payload: "android" });
   }
 };
 
-// Search action (keep as is)
-export const searchGames = (gameName) => async (dispatch) => {
-  dispatch({ type: "LOADING_SEARCH" });
+export const fetchAndroidUpcoming = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "android" });
   try {
-    const searchURL = `https://api.rawg.io/api/games?search=${gameName}&page_size=24&key=a29ef93a191743ff9869e602e14dc1bf`;
-    const response = await fetch(searchURL);
-    const data = await response.json();
+    const res = await fetch(androidUpcomingURL());
+    const data = await res.json();
     dispatch({
-      type: "SEARCH_GAMES",
-      payload: data.results,
+      type: "FETCH_PLATFORM_UPCOMING",
+      payload: { platform: "android", games: data.results },
     });
   } catch (error) {
-    console.error("Error searching games:", error);
+    dispatch({ type: "PLATFORM_UPCOMING_ERROR", payload: "android" });
+  }
+};
+
+export const fetchAndroidNew = () => async (dispatch) => {
+  dispatch({ type: "LOADING_PLATFORM_NEW", payload: "android" });
+  try {
+    const res = await fetch(androidNewURL());
+    const data = await res.json();
+    dispatch({
+      type: "FETCH_PLATFORM_NEW",
+      payload: { platform: "android", games: data.results },
+    });
+  } catch (error) {
+    dispatch({ type: "PLATFORM_NEW_ERROR", payload: "android" });
+  }
+};
+
+// ============================================
+// SEARCH ACTION
+// ============================================
+export const searchGames = (query) => async (dispatch) => {
+  dispatch({ type: "LOADING_SEARCH" });
+  try {
+    const res = await fetch(searchURL(query));
+    const data = await res.json();
+    dispatch({ type: "SEARCH_GAMES", payload: data.results });
+  } catch (error) {
     dispatch({ type: "SEARCH_ERROR" });
   }
 };
