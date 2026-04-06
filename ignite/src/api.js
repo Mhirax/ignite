@@ -1,57 +1,47 @@
 // src/api.js
 const API_KEY = "a29ef93a191743ff9869e602e14dc1bf";
-
 const base_url = "https://api.rawg.io/api/";
 
 // ============================================
-// 🚀 FIXED: NO DATE FILTERS - FETCH ALL GAMES!
+// PLATFORM IDs from RAWG
+// ============================================
+// PC: 1
+// PlayStation 5: 187
+// PlayStation 4: 18
+// Xbox Series X/S: 186
+// Xbox One: 1
+// Nintendo Switch: 7
+// iOS: 3
+// Android: 21
+
+// ============================================
+// PLATFORM-SPECIFIC ENDPOINTS
 // ============================================
 
-// Popular games - Top rated of ALL TIME (no date limit)
-const popular_games = `games?ordering=-rating&page_size=20&key=${API_KEY}`;
-
-// Upcoming games - Most anticipated (no date limit)
-const upcoming_games = `games?ordering=-added&page_size=20&key=${API_KEY}`;
-
-// New games - Recently released (still needs some date range, let's keep last 2 years)
-const getTwoYearsAgo = () => {
-  const year = new Date().getFullYear() - 2;
-  return `${year}-01-01`;
-};
-const twoYearsAgo = getTwoYearsAgo();
-const currentDate = new Date().toISOString().split("T")[0];
-const newGames = `games?dates=${twoYearsAgo},${currentDate}&ordering=-released&page_size=20&key=${API_KEY}`;
-
-// Platform-specific endpoints (already good, no changes needed)
+// PC Games
 export const pcGamesURL = () =>
-  `${base_url}games?platforms=1&ordering=-rating&page_size=20&key=${API_KEY}`;
+  `${base_url}games?platforms=1&ordering=-rating&page_size=24&key=${API_KEY}`;
 
+// PlayStation Games (PS4 + PS5)
 export const playstationGamesURL = () =>
-  `${base_url}games?platforms=18,187&ordering=-rating&page_size=20&key=${API_KEY}`;
+  `${base_url}games?platforms=18,187&ordering=-rating&page_size=24&key=${API_KEY}`;
 
+// Xbox Games (Xbox One + Series X/S)
 export const xboxGamesURL = () =>
-  `${base_url}games?platforms=1,186&ordering=-rating&page_size=20&key=${API_KEY}`;
+  `${base_url}games?platforms=1,186&ordering=-rating&page_size=24&key=${API_KEY}`;
 
-export const appleGamesURL = () =>
-  `${base_url}games?platforms=3&ordering=-rating&page_size=20&key=${API_KEY}`;
-
+// Nintendo Switch Games
 export const nintendoGamesURL = () =>
-  `${base_url}games?platforms=7&ordering=-rating&page_size=20&key=${API_KEY}`;
+  `${base_url}games?platforms=7&ordering=-rating&page_size=24&key=${API_KEY}`;
 
-export const gamesByPlatformURL = (platformId) =>
-  `${base_url}games?platforms=${platformId}&ordering=-rating&page_size=20&key=${API_KEY}`;
+// iOS Games
+export const iosGamesURL = () =>
+  `${base_url}games?platforms=3&ordering=-rating&page_size=24&key=${API_KEY}`;
 
-// Main game endpoints - FIXED (no date filters)
-export const popularGamesURL = () => `${base_url}${popular_games}`;
-export const upcomingGamesURL = () => `${base_url}${upcoming_games}`;
-export const newGamesURL = () => `${base_url}${newGames}`;
+// Android Games
+export const androidGamesURL = () =>
+  `${base_url}games?platforms=21&ordering=-rating&page_size=24&key=${API_KEY}`;
 
-// Game details (already good)
-export const gameDetailsURL = (game_id) =>
-  `${base_url}games/${game_id}?key=${API_KEY}`;
-
-// Game screenshots (already good)
-export const gameScreenshotURL = (game_id) =>
-  `${base_url}games/${game_id}/screenshots?key=${API_KEY}`;
-
-console.log("✅ API Ready - Fetching ALL games (no date limits)");
+// Generic platform filter (for any platform ID)
+export const gamesByPlatformURL = (platformIds) =>
+  `${base_url}games?platforms=${platformIds}&ordering=-rating&page_size=24&key=${API_KEY}`;
