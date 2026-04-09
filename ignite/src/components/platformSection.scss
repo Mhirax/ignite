@@ -27,11 +27,12 @@
   }
 
   &__title {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    color: #e0e0e0;
+    color: #0f0d0d;
     letter-spacing: 1px;
     margin: 0;
+    font-family: 'Courier New', Courier, monospace;
   }
 
   &__view-all {
@@ -66,7 +67,7 @@
     gap: 1rem;
     padding: 0.5rem 0.25rem;
     scrollbar-width: thin;
-    scrollbar-color: #ff3b3b #1a1a1a;
+    scrollbar-color: #070707 #4d4545;
     flex: 1;
 
     &::-webkit-scrollbar {

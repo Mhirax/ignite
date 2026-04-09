@@ -71,16 +71,16 @@ const Nav = () => {
             className="nav__link"
             onClick={() => scrollToSection("popular")}
           >
-            Popular
+            Home
           </button>
           <button
             className="nav__link"
             onClick={() => scrollToSection("upcoming")}
           >
-            Upcoming
+            Platform
           </button>
           <button className="nav__link" onClick={() => scrollToSection("new")}>
-            New Games
+            About
           </button>
         </div>
 

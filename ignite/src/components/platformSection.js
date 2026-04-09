@@ -24,14 +24,7 @@ const PlatformSection = () => {
   const currentUpcoming = platformUpcoming[activePlatform];
   const currentNew = platformNew[activePlatform];
 
-  const platformNames = {
-    pc: "PC",
-    playstation: "PlayStation",
-    xbox: "Xbox",
-    nintendo: "Nintendo Switch",
-    ios: "iOS",
-    android: "Android",
-  };
+
 
   const getDisplayGames = (games, section) => {
     if (!games || !games.games) return [];
@@ -57,9 +50,9 @@ const PlatformSection = () => {
           <div className="platform-section__header">
             <div className="platform-section__title-wrapper">
               <span className="platform-section__title-icon">{icon}</span>
-              <h2 className="platform-section__title">
-                {title} {platformNames[activePlatform]} Games
-              </h2>
+              {<h2 className="platform-section__title">
+                {title} GAMES
+              </h2>}
             </div>
           </div>
           <div className="platform-section__loading">
@@ -75,9 +68,9 @@ const PlatformSection = () => {
           <div className="platform-section__header">
             <div className="platform-section__title-wrapper">
               <span className="platform-section__title-icon">{icon}</span>
-              <h2 className="platform-section__title">
-                {title} {platformNames[activePlatform]} Games
-              </h2>
+              { <h2 className="platform-section__title">
+                {title}
+              </h2> }
             </div>
           </div>
           <div className="platform-section__error">
@@ -100,7 +93,7 @@ const PlatformSection = () => {
           >
             <span className="platform-section__title-icon">{icon}</span>
             <h2 className="platform-section__title">
-              {title} {platformNames[activePlatform]} Games
+              {title} 
             </h2>
           </div>
           {games.length > 8 && (
@@ -155,24 +148,22 @@ const PlatformSection = () => {
     <div className="platform-section">
       <Section
         title="POPULAR"
-        icon="🔥"
         data={currentPopular}
         type="popular"
-        accentColor="#ff3b3b"
+       
       />
       <Section
         title="UPCOMING"
-        icon="📅"
         data={currentUpcoming}
         type="upcoming"
-        accentColor="#3b82f6"
+       
       />
       <Section
         title="NEW GAMES"
-        icon="🆕"
+      
         data={currentNew}
         type="new"
-        accentColor="#10b981"
+        
       />
     </div>
   );

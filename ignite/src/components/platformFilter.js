@@ -31,7 +31,7 @@ const PlatformFilter = () => {
     {
       id: "pc",
       name: "PC",
-      icon: "💻",
+      icon: "",
       actions: {
         popular: fetchPCPopular,
         upcoming: fetchPCUpcoming,
@@ -41,7 +41,7 @@ const PlatformFilter = () => {
     {
       id: "playstation",
       name: "PlayStation",
-      icon: "🎮",
+      icon: "",
       actions: {
         popular: fetchPSPopular,
         upcoming: fetchPSUpcoming,
@@ -50,8 +50,8 @@ const PlatformFilter = () => {
     },
     {
       id: "xbox",
-      name: "Xbox",
-      icon: "🟢",
+      name: "xbox",
+      icon: "",
       actions: {
         popular: fetchXboxPopular,
         upcoming: fetchXboxUpcoming,
@@ -61,7 +61,7 @@ const PlatformFilter = () => {
     {
       id: "nintendo",
       name: "Nintendo",
-      icon: "🍎",
+      icon: "",
       actions: {
         popular: fetchNintendoPopular,
         upcoming: fetchNintendoUpcoming,
@@ -71,7 +71,7 @@ const PlatformFilter = () => {
     {
       id: "ios",
       name: "iOS",
-      icon: "📱",
+      icon: "",
       actions: {
         popular: fetchIosPopular,
         upcoming: fetchIosUpcoming,
@@ -81,7 +81,7 @@ const PlatformFilter = () => {
     {
       id: "android",
       name: "Android",
-      icon: "🤖",
+      icon: "",
       actions: {
         popular: fetchAndroidPopular,
         upcoming: fetchAndroidUpcoming,
