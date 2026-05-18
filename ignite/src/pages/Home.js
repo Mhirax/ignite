@@ -8,6 +8,7 @@ import PlatformSection from "../components/platformSection";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./Home.scss";
 
+// This Home component serves as the main landing page for the gaming website. It features a hero carousel showcasing popular games, a platform filter for users to select their preferred gaming platform, and sections for popular, upcoming, and new games based on the selected platform. Additionally, it displays search results when users search for games, along with loading and error states for the search functionality.
 const Home = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
