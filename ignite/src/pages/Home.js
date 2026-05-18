@@ -110,6 +110,7 @@ const Home = () => {
           </div>
         )}
 
+        // Navigation buttons for the carousel, which are only displayed if there are multiple slides to navigate through. The buttons allow users to manually cycle through the featured games in the hero carousel.
         {heroSlides.length > 1 && (
           <>
             <button className="hero-carousel__prev" onClick={prevSlide}>
