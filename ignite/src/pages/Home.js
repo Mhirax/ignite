@@ -80,6 +80,7 @@ const Home = () => {
   const currentGame = heroSlides[currentSlide];
 
   return (
+    // The Home component's JSX structure includes a hero carousel at the top, which displays featured games with their images, titles, and descriptions. Below the carousel, there is a main container that includes a platform filter for users to select their gaming platform and sections for popular, upcoming, and new games based on the selected platform. If there are search results available, they are displayed in a grid format, along with loading and error messages as needed.
     <div className="home">
       {/* Hero Carousel Section */}
       <div
