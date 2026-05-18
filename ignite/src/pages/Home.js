@@ -20,6 +20,7 @@ const Home = () => {
     (state) => state.games,
   );
 
+  // Manually defining hero slides with popular games and their details
   useEffect(() => {
     const manualHeroSlides = [
       {
