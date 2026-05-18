@@ -76,7 +76,7 @@ const Home = () => {
     setCurrentSlide(
       (prev) => (prev - 1 + heroSlides.length) % heroSlides.length,
     );
-
+  // Get the current game details based on the current slide index
   const currentGame = heroSlides[currentSlide];
 
   return (
