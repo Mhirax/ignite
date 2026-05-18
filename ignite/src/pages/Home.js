@@ -71,6 +71,7 @@ const Home = () => {
   const goToSlide = (index) => setCurrentSlide(index);
   const nextSlide = () =>
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  // The prevSlide function uses modular arithmetic to wrap around to the last slide when navigating backwards from the first slide, ensuring a seamless carousel experience.
   const prevSlide = () =>
     setCurrentSlide(
       (prev) => (prev - 1 + heroSlides.length) % heroSlides.length,
