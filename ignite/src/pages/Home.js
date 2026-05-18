@@ -15,6 +15,7 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [heroSlides, setHeroSlides] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
+  // Accessing search-related state from the Redux store
   const { searched, searchLoading, searchError } = useSelector(
     (state) => state.games,
   );
