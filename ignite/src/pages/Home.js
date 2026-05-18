@@ -58,7 +58,7 @@ const Home = () => {
     setHeroSlides(manualHeroSlides);
   }, []);
 
-  // Auto-play functionality
+  // Automatically cycle through hero slides every 5 seconds,
   useEffect(() => {
     if (heroSlides.length === 0 || isHovering) return;
     const interval = setInterval(() => {
@@ -67,6 +67,7 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [heroSlides.length, isHovering]);
 
+  // Handlers for navigating the hero carousel
   const goToSlide = (index) => setCurrentSlide(index);
   const nextSlide = () =>
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
