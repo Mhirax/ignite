@@ -88,6 +88,7 @@ const Home = () => {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
+        // Display the current hero slide with game details and an "Explore" button that navigates to the game's detail page
         {heroSlides.length > 0 && currentGame && (
           <div
             className="hero-slide"
