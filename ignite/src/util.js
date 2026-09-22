@@ -10,10 +10,12 @@ export const smallImage = (imagePath, size = 640) => {
     imagePath.startsWith("https://media.rawg.io/media/") &&
     (imagePath.includes("/media/games/") || imagePath.includes("/media/screenshots/"))
   ) {
-    // Replace ONLY the first occurrence of /media/(games|screenshots)/
+    // Insert the resize prefix before the games|screenshots segment (RAWG's resize
+    // CDN needs that segment kept, e.g. /media/resize/640/-/games/<hash>.jpg —
+    // dropping it 404s)
     return imagePath.replace(
       /\/media\/(games|screenshots)\//,
-      `/media/resize/${size}/-/`
+      `/media/resize/${size}/-/$1/`
     );
   }
 

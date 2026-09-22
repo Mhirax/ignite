@@ -7,6 +7,7 @@ import PlatformFilter from "../components/platformFilter";
 import CategoryFilter from "../components/CategoryFilter";
 import GamesFeed from "../components/GamesFeed";
 import { gamesURL } from "../api";
+import { smallImage } from "../util";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./Home.scss";
 
@@ -43,7 +44,7 @@ const Home = () => {
               ]
                 .filter(Boolean)
                 .join(" · "),
-              backgroundImage: game.background_image,
+              backgroundImage: smallImage(game.background_image, 1280),
             })),
         );
       } catch (error) {

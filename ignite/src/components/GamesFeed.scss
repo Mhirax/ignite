@@ -19,3 +19,22 @@
     background: var(--accent-light);
   }
 }
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+
+  p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .retry-btn {
+    margin-left: 0;
+  }
+}

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadDetail } from "../actions/detailAction";
 import { motion } from "framer-motion";
+import { smallImage } from "../util";
 import "./GameDetails.scss"; // ← Import SCSS
 
 import playstation from "../img/playstation.png";
@@ -112,10 +113,7 @@ const GameDetail = () => {
 
             <img
               className="game-detail__image"
-              src={
-                game.background_image ||
-                "https://placehold.co/800x400/e0e0e0/aaaaaa?text=Cover"
-              }
+              src={smallImage(game.background_image, 1280)}
               alt={game.name}
             />
 
@@ -132,10 +130,7 @@ const GameDetail = () => {
                     <img
                       key={screenshot.id}
                       className="game-detail__screenshot"
-                      src={
-                        screenshot.image ||
-                        "https://placehold.co/200x150/e0e0e0/aaaaaa?text=SS"
-                      }
+                      src={smallImage(screenshot.image, 640)}
                       alt={`Screenshot ${screenshot.id}`}
                     />
                   ))}

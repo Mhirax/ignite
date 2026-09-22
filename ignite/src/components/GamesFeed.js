@@ -1,7 +1,7 @@
 // src/components/GamesFeed.jsx
 import React, { useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchGames } from "../actions/gamesAction";
+import { fetchGames, setActivePlatform, setActiveCategory } from "../actions/gamesAction";
 import { CATEGORIES } from "../api";
 import Game from "./Game";
 import "./GamesFeed.scss";
@@ -12,6 +12,12 @@ const GamesFeed = () => {
     (state) => state.games,
   );
   const sentinelRef = useRef(null);
+  const isEmpty = !loading && !error && games.length === 0;
+
+  const resetFilters = () => {
+    dispatch(setActivePlatform("all"));
+    dispatch(setActiveCategory("all"));
+  };
 
   // Initial load and reload whenever the platform or category filter changes
   useEffect(() => {
@@ -44,17 +50,19 @@ const GamesFeed = () => {
         {activeCategory === "all" ? "All Games" : `${CATEGORIES[activeCategory].label} Games`}
       </div>
 
-      <div className="games-grid">
-        {games.map((game) => (
-          <Game
-            key={game.id}
-            name={game.name}
-            released={game.released}
-            id={String(game.id)}
-            image={game.background_image}
-          />
-        ))}
-      </div>
+      {!isEmpty && (
+        <div className="games-grid">
+          {games.map((game) => (
+            <Game
+              key={game.id}
+              name={game.name}
+              released={game.released}
+              id={String(game.id)}
+              image={game.background_image}
+            />
+          ))}
+        </div>
+      )}
 
       {loading && (
         <div className="loading-message">
@@ -67,6 +75,15 @@ const GamesFeed = () => {
           ❌ Error loading games.{" "}
           <button className="retry-btn" onClick={loadNextPage}>
             Retry
+          </button>
+        </div>
+      )}
+
+      {isEmpty && (
+        <div className="empty-state">
+          <p>No games found for this filter combination.</p>
+          <button className="retry-btn" onClick={resetFilters}>
+            Reset filters
           </button>
         </div>
       )}
