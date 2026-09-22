@@ -11,7 +11,7 @@ const TabBar = ({ options, activeValue, onSelect }) => (
           className={`tab-bar__btn ${activeValue === option.id ? "tab-bar__btn--active" : ""}`}
           onClick={() => onSelect(option.id)}
         >
-          {option.icon && <option.icon size={16} strokeWidth={2} />}
+          {option.icon && <option.icon size={16} />}
           {option.name}
         </button>
       ))}
