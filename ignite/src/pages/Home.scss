@@ -74,7 +74,7 @@
     padding: 0;
 
     &--active {
-      background: #ff3b3b;
+      background: var(--accent-light);
       width: 24px;
       border-radius: 5px;
     }
@@ -96,12 +96,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.75) 0%,
-      rgba(0, 0, 0, 0.5) 50%,
-      rgba(0, 0, 0, 0.3) 100%
-    );
+    background:
+      linear-gradient(0deg, var(--bg) 0%, rgba(10, 10, 13, 0.2) 45%, rgba(10, 10, 13, 0.1) 100%),
+      linear-gradient(90deg, rgba(10, 10, 13, 0.85) 0%, rgba(10, 10, 13, 0.35) 55%, rgba(10, 10, 13, 0.1) 100%);
   }
 
   &__content {
@@ -133,11 +130,8 @@
     font-weight: 800;
     margin-bottom: 1.5rem;
     line-height: 1.2;
-    color: white;
-    background: linear-gradient(135deg, #ffffff 0%, #ff9f4a 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: #ffffff;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 
     @media (max-width: 1024px) {
       font-size: 3rem;
@@ -168,21 +162,21 @@
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    background: linear-gradient(135deg, #ff3b3b 0%, #ff6b35 100%);
+    background: var(--accent-gradient);
     color: white;
     border: none;
     padding: 1rem 2rem;
     border-radius: 50px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
     width: fit-content;
-    box-shadow: 0 4px 15px rgba(255, 59, 59, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 112, 209, 0.4);
 
     &:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(255, 59, 59, 0.4);
+      box-shadow: 0 8px 28px rgba(0, 112, 209, 0.55);
     }
 
     @media (max-width: 768px) {
@@ -208,29 +202,35 @@
 
 /* ========== SEARCH RESULTS SECTION ========== */
 .section__title {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: #ff7676;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  margin: 2rem 0 1rem;
+  margin: 2rem 0 1.25rem;
+  padding-left: 0.9rem;
+  border-left: 4px solid var(--accent);
 }
 
 .result-count {
-  font-size: 0.9rem;
-  background: #ff7676;
-  color: white;
+  font-size: 0.8rem;
+  text-transform: none;
+  letter-spacing: normal;
+  background: var(--bg-elevated-2);
+  color: var(--text-secondary);
   padding: 0.3rem 1rem;
   border-radius: 20px;
-  font-weight: normal;
+  font-weight: 500;
 }
 
 /* ========== GAMES GRID ========== */
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
@@ -238,8 +238,8 @@
 .loading-message {
   text-align: center;
   padding: 3rem;
-  font-size: 1.2rem;
-  color: #ff7676;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -249,8 +249,9 @@
 .error-message {
   text-align: center;
   padding: 2rem;
-  background: #ffeeee;
-  color: #ff3333;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: #ff6b6b;
   border-radius: 8px;
   margin: 2rem 0;
 }
@@ -258,7 +259,7 @@
 .spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid #ff7676;
+  border: 3px solid var(--accent);
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;

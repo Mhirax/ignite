@@ -7,7 +7,7 @@
 
 .retry-btn {
   margin-left: 0.75rem;
-  background: #ff3333;
+  background: var(--accent);
   color: white;
   border: none;
   padding: 0.4rem 1rem;
@@ -16,6 +16,6 @@
   font-weight: 600;
 
   &:hover {
-    opacity: 0.85;
+    background: var(--accent-light);
   }
 }
