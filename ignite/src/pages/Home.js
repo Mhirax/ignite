@@ -1,10 +1,11 @@
 // src/pages/Home.js
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Game from "../components/Game";
 import PlatformFilter from "../components/platformFilter";
-import PlatformSection from "../components/platformSection";
+import GamesFeed from "../components/GamesFeed";
+import { gamesURL } from "../api";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./Home.scss";
 
@@ -20,42 +21,38 @@ const Home = () => {
     (state) => state.games,
   );
 
-  // Manually defining hero slides with popular games and their details
+  // Pull the hero slides from RAWG's top-rated games instead of a hardcoded list
   useEffect(() => {
-    const manualHeroSlides = [
-      {
-        id: 3498,
-        title: "Grand Theft Auto V",
-        description:
-          "Los Santos - a sprawling sun-soaked metropolis full of self-help gurus, starlets and fading celebrities. Enter a world of crime and chaos.",
-        backgroundImage: "https://images7.alphacoders.com/439/439636.jpg",
-      },
-      {
-        id: 28,
-        title: "Red Dead Redemption 2",
-        description:
-          "America, 1899. The end of the Wild West era has begun. After a robbery goes wrong, Arthur Morgan must choose between his own ideals and loyalty to the gang.",
-        backgroundImage:
-          "https://wallpapers.com/images/hd/red-dead-redemption-2-full-hd-89a419dquungxzai.jpg",
-      },
-      {
-        id: 5679,
-        title: "Elden Ring",
-        description:
-          "The critically acclaimed action RPG from Hidetaka Miyazaki and George R.R. Martin. Explore the Lands Between and become the Elden Lord.",
-        backgroundImage:
-          "https://wallpapers.com/images/hd/elden-ring-game-scenery-u6f65ngdqukwsshd.jpg",
-      },
-      {
-        id: 41494,
-        title: "Cyberpunk 2077",
-        description:
-          "Cyberpunk 2077 is an open-world, action-adventure story set in Night City, a megalopolis obsessed with power, glamour and body modification.",
-        backgroundImage:
-          "https://images.hdqwalls.com/wallpapers/cyberpunk-2077-phantom-liberty-game-2025-b7.jpg",
-      },
-    ];
-    setHeroSlides(manualHeroSlides);
+    let cancelled = false;
+    const loadHeroSlides = async () => {
+      try {
+        const res = await fetch(gamesURL({ ordering: "-rating", pageSize: 5 }));
+        if (!res.ok) throw new Error(`RAWG request failed: ${res.status}`);
+        const data = await res.json();
+        if (cancelled) return;
+        setHeroSlides(
+          (data.results || [])
+            .filter((game) => game.background_image)
+            .map((game) => ({
+              id: game.id,
+              title: game.name,
+              subtitle: [
+                game.genres?.map((g) => g.name).slice(0, 2).join(", "),
+                game.rating ? `★ ${game.rating.toFixed(1)}` : null,
+              ]
+                .filter(Boolean)
+                .join(" · "),
+              backgroundImage: game.background_image,
+            })),
+        );
+      } catch (error) {
+        if (!cancelled) setHeroSlides([]);
+      }
+    };
+    loadHeroSlides();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Automatically cycle through hero slides every 5 seconds,
@@ -97,9 +94,9 @@ const Home = () => {
             <div className="hero-slide__overlay"></div>
             <div className="hero-slide__content">
               <h1 className="hero-slide__title">{currentGame.title}</h1>
-              <p className="hero-slide__description">
-                {currentGame.description}
-              </p>
+              {currentGame.subtitle && (
+                <p className="hero-slide__description">{currentGame.subtitle}</p>
+              )}
               <button
                 className="hero-slide__button"
                 onClick={() => navigate(`/game/${currentGame.id}`)}
@@ -140,8 +137,8 @@ const Home = () => {
         {/* Platform Filter */}
         <PlatformFilter />
 
-        {/* Platform Sections (Popular, Upcoming, New for selected platform) */}
-        <PlatformSection />
+        {/* All games, filtered by the selected platform, with infinite scroll */}
+        <GamesFeed />
 
         {/* Search Results */}
         {searched.length > 0 && (

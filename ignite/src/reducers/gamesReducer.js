@@ -1,40 +1,48 @@
 // src/reducers/gamesReducer.js
 const initialState = {
+  // All-games feed (optionally filtered by platform), paginated
+  games: [],
+  page: 1,
+  hasMore: true,
+  loading: false,
+  error: false,
+  activePlatform: "all",
+
+  // Search
   searched: [],
   searchQuery: "",
   searchLoading: false,
   searchError: false,
-  activePlatform: "pc",
-
-  // Platform-specific categories
-  platformPopular: {
-    pc: { games: [], loading: false, error: false },
-    playstation: { games: [], loading: false, error: false },
-    xbox: { games: [], loading: false, error: false },
-    nintendo: { games: [], loading: false, error: false },
-    ios: { games: [], loading: false, error: false },
-    android: { games: [], loading: false, error: false },
-  },
-  platformUpcoming: {
-    pc: { games: [], loading: false, error: false },
-    playstation: { games: [], loading: false, error: false },
-    xbox: { games: [], loading: false, error: false },
-    nintendo: { games: [], loading: false, error: false },
-    ios: { games: [], loading: false, error: false },
-    android: { games: [], loading: false, error: false },
-  },
-  platformNew: {
-    pc: { games: [], loading: false, error: false },
-    playstation: { games: [], loading: false, error: false },
-    xbox: { games: [], loading: false, error: false },
-    nintendo: { games: [], loading: false, error: false },
-    ios: { games: [], loading: false, error: false },
-    android: { games: [], loading: false, error: false },
-  },
 };
 
 const gamesReducer = (state = initialState, action) => {
   switch (action.type) {
+    // ============================================
+    // GAMES FEED
+    // ============================================
+    case "LOADING_GAMES":
+      return { ...state, loading: true, error: false };
+    case "FETCH_GAMES_SUCCESS":
+      return {
+        ...state,
+        games: action.payload.append
+          ? [...state.games, ...action.payload.games]
+          : action.payload.games,
+        page: action.payload.page,
+        hasMore: action.payload.hasMore,
+        loading: false,
+      };
+    case "GAMES_ERROR":
+      return { ...state, loading: false, error: true };
+    case "SET_ACTIVE_PLATFORM":
+      return {
+        ...state,
+        activePlatform: action.payload,
+        games: [],
+        page: 1,
+        hasMore: true,
+      };
+
     // ============================================
     // SEARCH
     // ============================================
@@ -46,131 +54,6 @@ const gamesReducer = (state = initialState, action) => {
       return { ...state, searched: [], searchLoading: false, searchError: true };
     case "CLEAR_SEARCH":
       return { ...state, searched: [], searchQuery: "", searchLoading: false, searchError: false };
-
-    // ============================================
-    // PLATFORM POPULAR
-    // ============================================
-    case "LOADING_PLATFORM_POPULAR":
-      return {
-        ...state,
-        platformPopular: {
-          ...state.platformPopular,
-          [action.payload]: {
-            ...state.platformPopular[action.payload],
-            loading: true,
-            error: false,
-          },
-        },
-      };
-    case "FETCH_PLATFORM_POPULAR":
-      return {
-        ...state,
-        platformPopular: {
-          ...state.platformPopular,
-          [action.payload.platform]: {
-            games: action.payload.games,
-            loading: false,
-            error: false,
-          },
-        },
-        // activePlatform is set on click (SET_ACTIVE_PLATFORM), not here: a slow response
-        // for an earlier click used to switch the tab back to the wrong platform
-      };
-    case "PLATFORM_POPULAR_ERROR":
-      return {
-        ...state,
-        platformPopular: {
-          ...state.platformPopular,
-          [action.payload]: {
-            ...state.platformPopular[action.payload],
-            loading: false,
-            error: true,
-          },
-        },
-      };
-
-    // ============================================
-    // PLATFORM UPCOMING
-    // ============================================
-    case "LOADING_PLATFORM_UPCOMING":
-      return {
-        ...state,
-        platformUpcoming: {
-          ...state.platformUpcoming,
-          [action.payload]: {
-            ...state.platformUpcoming[action.payload],
-            loading: true,
-            error: false,
-          },
-        },
-      };
-    case "FETCH_PLATFORM_UPCOMING":
-      return {
-        ...state,
-        platformUpcoming: {
-          ...state.platformUpcoming,
-          [action.payload.platform]: {
-            games: action.payload.games,
-            loading: false,
-            error: false,
-          },
-        },
-      };
-    case "PLATFORM_UPCOMING_ERROR":
-      return {
-        ...state,
-        platformUpcoming: {
-          ...state.platformUpcoming,
-          [action.payload]: {
-            ...state.platformUpcoming[action.payload],
-            loading: false,
-            error: true,
-          },
-        },
-      };
-
-    // ============================================
-    // PLATFORM NEW
-    // ============================================
-    case "LOADING_PLATFORM_NEW":
-      return {
-        ...state,
-        platformNew: {
-          ...state.platformNew,
-          [action.payload]: {
-            ...state.platformNew[action.payload],
-            loading: true,
-            error: false,
-          },
-        },
-      };
-    case "FETCH_PLATFORM_NEW":
-      return {
-        ...state,
-        platformNew: {
-          ...state.platformNew,
-          [action.payload.platform]: {
-            games: action.payload.games,
-            loading: false,
-            error: false,
-          },
-        },
-      };
-    case "PLATFORM_NEW_ERROR":
-      return {
-        ...state,
-        platformNew: {
-          ...state.platformNew,
-          [action.payload]: {
-            ...state.platformNew[action.payload],
-            loading: false,
-            error: true,
-          },
-        },
-      };
-
-    case "SET_ACTIVE_PLATFORM":
-      return { ...state, activePlatform: action.payload };
 
     default:
       return state;
