@@ -2,7 +2,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setActivePlatform } from "../actions/gamesAction";
-import "./platformFilter.scss";
+import TabBar from "./TabBar";
 
 const PLATFORMS = [
   { id: "all", name: "All" },
@@ -18,25 +18,12 @@ const PlatformFilter = () => {
   const dispatch = useDispatch();
   const { activePlatform } = useSelector((state) => state.games);
 
-  const handlePlatformClick = (platformId) => {
-    if (platformId === activePlatform) return;
-    dispatch(setActivePlatform(platformId));
-  };
-
   return (
-    <div className="platform-filter">
-      <div className="platform-filter__wrapper">
-        {PLATFORMS.map((platform) => (
-          <button
-            key={platform.id}
-            className={`platform-filter__btn ${activePlatform === platform.id ? "platform-filter__btn--active" : ""}`}
-            onClick={() => handlePlatformClick(platform.id)}
-          >
-            <span className="platform-filter__btn-name">{platform.name}</span>
-          </button>
-        ))}
-      </div>
-    </div>
+    <TabBar
+      options={PLATFORMS}
+      activeValue={activePlatform}
+      onSelect={(platform) => dispatch(setActivePlatform(platform))}
+    />
   );
 };
 

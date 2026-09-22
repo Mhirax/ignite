@@ -7,6 +7,7 @@ const initialState = {
   loading: false,
   error: false,
   activePlatform: "all",
+  activeCategory: "all",
 
   // Search
   searched: [],
@@ -38,6 +39,14 @@ const gamesReducer = (state = initialState, action) => {
       return {
         ...state,
         activePlatform: action.payload,
+        games: [],
+        page: 1,
+        hasMore: true,
+      };
+    case "SET_ACTIVE_CATEGORY":
+      return {
+        ...state,
+        activeCategory: action.payload,
         games: [],
         page: 1,
         hasMore: true,

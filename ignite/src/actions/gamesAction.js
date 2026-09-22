@@ -1,5 +1,5 @@
 // src/actions/gamesAction.js
-import { gamesURL, searchURL } from "../api";
+import { gamesURL, searchURL, CATEGORIES } from "../api";
 
 // fetch() only rejects on network failure, so treat HTTP errors (bad key, rate limit) as errors too
 const getJSON = async (url) => {
@@ -9,14 +9,20 @@ const getJSON = async (url) => {
 };
 
 // ============================================
-// GAMES FEED (all games, optionally filtered by platform, paginated)
+// GAMES FEED (all games, filtered by platform/category, paginated)
 // ============================================
-export const fetchGames = ({ platform = "all", page = 1 } = {}) =>
+export const fetchGames = ({ platform = "all", category = "all", page = 1 } = {}) =>
   async (dispatch) => {
     dispatch({ type: "LOADING_GAMES" });
     try {
+      const { ordering, dates } = CATEGORIES[category] || CATEGORIES.all;
       const data = await getJSON(
-        gamesURL({ page, platform: platform === "all" ? undefined : platform }),
+        gamesURL({
+          page,
+          platform: platform === "all" ? undefined : platform,
+          ordering,
+          dates,
+        }),
       );
       dispatch({
         type: "FETCH_GAMES_SUCCESS",
@@ -32,10 +38,17 @@ export const fetchGames = ({ platform = "all", page = 1 } = {}) =>
     }
   };
 
-export const setActivePlatform = (platform) => (dispatch) => {
-  dispatch({ type: "SET_ACTIVE_PLATFORM", payload: platform });
-  dispatch(fetchGames({ platform, page: 1 }));
-};
+// Just update the filter; GamesFeed's effect (watching activePlatform/activeCategory)
+// is the single place that reacts and fetches, so a filter change never double-fetches
+export const setActivePlatform = (platform) => ({
+  type: "SET_ACTIVE_PLATFORM",
+  payload: platform,
+});
+
+export const setActiveCategory = (category) => ({
+  type: "SET_ACTIVE_CATEGORY",
+  payload: category,
+});
 
 // ============================================
 // SEARCH ACTION

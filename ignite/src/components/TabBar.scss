@@ -1,7 +1,11 @@
-// src/components/PlatformFilter.scss
-.platform-filter {
-  margin: 1.5rem 0 2rem;
+// src/components/TabBar.scss
+.tab-bar {
+  margin-bottom: 1rem;
   border-bottom: 1px solid var(--border);
+
+  &:first-child {
+    margin-top: 1.5rem;
+  }
 
   &__wrapper {
     display: flex;
@@ -30,10 +34,6 @@
     &--active {
       color: var(--text-primary);
       border-bottom-color: var(--accent);
-    }
-
-    &-name {
-      font-size: 0.85rem;
     }
   }
 }

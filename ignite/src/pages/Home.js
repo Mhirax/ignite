@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Game from "../components/Game";
 import PlatformFilter from "../components/platformFilter";
+import CategoryFilter from "../components/CategoryFilter";
 import GamesFeed from "../components/GamesFeed";
 import { gamesURL } from "../api";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -137,7 +138,10 @@ const Home = () => {
         {/* Platform Filter */}
         <PlatformFilter />
 
-        {/* All games, filtered by the selected platform, with infinite scroll */}
+        {/* Category Filter (All / Popular / New / Upcoming) */}
+        <CategoryFilter />
+
+        {/* Games feed, filtered by the selected platform + category, with infinite scroll */}
         <GamesFeed />
 
         {/* Search Results */}

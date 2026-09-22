@@ -15,13 +15,44 @@ export const PLATFORM_IDS = {
 };
 
 // ============================================
-// GAMES (all games, optionally filtered by platform/search, paginated)
+// DATE HELPERS (for the Popular/New/Upcoming categories below)
+// ============================================
+const getCurrentMonth = () => {
+  const month = new Date().getMonth() + 1;
+  return month < 10 ? `0${month}` : month;
+};
+
+const getCurrentDay = () => {
+  const day = new Date().getDate();
+  return day < 10 ? `0${day}` : day;
+};
+
+const currentYear = new Date().getFullYear();
+const currentMonth = getCurrentMonth();
+const currentDay = getCurrentDay();
+const currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
+const lastYear = `${currentYear - 1}-${currentMonth}-${currentDay}`;
+const nextYear = `${currentYear + 1}-${currentMonth}-${currentDay}`;
+
+// ============================================
+// CATEGORIES (ordering/date presets, layered on top of the All Games feed)
+// ============================================
+export const CATEGORIES = {
+  all: { label: "All" },
+  popular: { label: "Popular", ordering: "-rating", dates: `${lastYear},${currentDate}` },
+  new: { label: "New", ordering: "-released", dates: `${lastYear},${currentDate}` },
+  upcoming: { label: "Upcoming", ordering: "-added", dates: `${currentDate},${nextYear}` },
+};
+
+// ============================================
+// GAMES (all games, optionally filtered by platform/category/search, paginated)
 // ============================================
 export const gamesURL = ({
   page = 1,
   pageSize = 24,
   ordering = "-added",
   platform,
+  dates,
   search,
 } = {}) => {
   const params = new URLSearchParams({
@@ -32,6 +63,9 @@ export const gamesURL = ({
   });
   if (platform && PLATFORM_IDS[platform]) {
     params.set("platforms", PLATFORM_IDS[platform]);
+  }
+  if (dates) {
+    params.set("dates", dates);
   }
   if (search) {
     params.set("search", search);

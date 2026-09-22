@@ -2,26 +2,27 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGames } from "../actions/gamesAction";
+import { CATEGORIES } from "../api";
 import Game from "./Game";
 import "./GamesFeed.scss";
 
 const GamesFeed = () => {
   const dispatch = useDispatch();
-  const { games, page, hasMore, loading, error, activePlatform } = useSelector(
+  const { games, page, hasMore, loading, error, activePlatform, activeCategory } = useSelector(
     (state) => state.games,
   );
   const sentinelRef = useRef(null);
 
-  // Initial load and reload whenever the platform filter changes
+  // Initial load and reload whenever the platform or category filter changes
   useEffect(() => {
-    dispatch(fetchGames({ platform: activePlatform, page: 1 }));
+    dispatch(fetchGames({ platform: activePlatform, category: activeCategory, page: 1 }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activePlatform]);
+  }, [activePlatform, activeCategory]);
 
   const loadNextPage = useCallback(() => {
     if (loading || !hasMore) return;
-    dispatch(fetchGames({ platform: activePlatform, page: page + 1 }));
-  }, [dispatch, loading, hasMore, activePlatform, page]);
+    dispatch(fetchGames({ platform: activePlatform, category: activeCategory, page: page + 1 }));
+  }, [dispatch, loading, hasMore, activePlatform, activeCategory, page]);
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -39,7 +40,9 @@ const GamesFeed = () => {
 
   return (
     <div className="games-feed">
-      <div className="section__title">All Games</div>
+      <div className="section__title">
+        {activeCategory === "all" ? "All Games" : `${CATEGORIES[activeCategory].label} Games`}
+      </div>
 
       <div className="games-grid">
         {games.map((game) => (
