@@ -14,13 +14,27 @@ const GameDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const { screen, game } = useSelector((state) => state.detail);
+  const { screen, game, isLoading, error } = useSelector((state) => state.detail);
 
+  // The store may still hold the previously opened game while this one loads
+  const isCurrentGame = game?.id === parseInt(id, 10);
+
+  // Fetch once per id. Card clicks no longer dispatch too, so there's no double request.
   useEffect(() => {
-    if (id && (!game || game.id !== parseInt(id))) {
+    if (id && !isCurrentGame) {
       dispatch(loadDetail(id));
     }
-  }, [id, game, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, dispatch]);
+
+  // Lock page scroll while the modal is open, and ALWAYS unlock when it closes,
+  // including when the user leaves with the browser Back button
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
 
   const getPlatformIcon = (platformName) => {
     const name = (platformName || "").toLowerCase();
@@ -31,7 +45,6 @@ const GameDetail = () => {
   };
 
   const exitHandler = () => {
-    document.body.style.overflow = "auto";
     navigate("/");
   };
 
@@ -56,7 +69,11 @@ const GameDetail = () => {
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
       >
-        {!game || !game.id ? (
+        {error ? (
+          <div className="game-detail__loading">
+            <p>❌ Couldn't load this game. Please try again.</p>
+          </div>
+        ) : isLoading || !isCurrentGame ? (
           <div className="game-detail__loading">
             <p>Loading game details...</p>
           </div>
@@ -103,11 +120,8 @@ const GameDetail = () => {
             />
 
             <div className="game-detail__description">
-              <p>
-                {game.description_raw
-                  ? game.description_raw.replace(/\n/g, "<br />")
-                  : "No description available."}
-              </p>
+              {/* Line breaks are shown with CSS white-space: pre-line (React would print "<br />" as text) */}
+              <p>{game.description_raw || "No description available."}</p>
             </div>
 
             {screen?.results && screen.results.length > 0 && (

@@ -1,5 +1,5 @@
 // src/api.js
-const API_KEY = "a29ef93a191743ff9869e602e14dc1bf";
+const API_KEY = process.env.REACT_APP_RAWG_API_KEY;
 const base_url = "https://api.rawg.io/api/";
 
 // ============================================
@@ -25,9 +25,9 @@ const nextYear = `${currentYear + 1}-${currentMonth}-${currentDay}`;
 // ============================================
 // PLATFORM IDs
 // ============================================
-// PC: 1
+// PC: 4
 // PlayStation: 18 (PS4), 187 (PS5)
-// Xbox: 1 (Xbox One), 186 (Series X/S)
+// Xbox: 1 (Xbox One), 186 (Series X/S)  (note: 1 is Xbox One, NOT PC)
 // Nintendo: 7
 // iOS: 3
 // Android: 21
@@ -38,11 +38,11 @@ const nextYear = `${currentYear + 1}-${currentMonth}-${currentDay}`;
 
 // ----- PC -----
 export const pcPopularURL = () =>
-  `${base_url}games?platforms=1&dates=${lastYear},${currentDate}&ordering=-rating&page_size=12&key=${API_KEY}`;
+  `${base_url}games?platforms=4&dates=${lastYear},${currentDate}&ordering=-rating&page_size=12&key=${API_KEY}`;
 export const pcUpcomingURL = () =>
-  `${base_url}games?platforms=1&dates=${currentDate},${nextYear}&ordering=-added&page_size=12&key=${API_KEY}`;
+  `${base_url}games?platforms=4&dates=${currentDate},${nextYear}&ordering=-added&page_size=12&key=${API_KEY}`;
 export const pcNewURL = () =>
-  `${base_url}games?platforms=1&dates=${lastYear},${currentDate}&ordering=-released&page_size=12&key=${API_KEY}`;
+  `${base_url}games?platforms=4&dates=${lastYear},${currentDate}&ordering=-released&page_size=12&key=${API_KEY}`;
 
 // ----- PlayStation -----
 export const psPopularURL = () =>
@@ -97,6 +97,5 @@ export const gameScreenshotURL = (game_id) =>
 // SEARCH
 // ============================================
 export const searchURL = (query) =>
-  `${base_url}games?search=${query}&page_size=24&key=${API_KEY}`;
+  `${base_url}games?search=${encodeURIComponent(query)}&page_size=24&key=${API_KEY}`;
 
-console.log("✅ API Ready - Platform endpoints loaded");

@@ -1,6 +1,7 @@
 // src/reducers/gamesReducer.js
 const initialState = {
   searched: [],
+  searchQuery: "",
   searchLoading: false,
   searchError: false,
   activePlatform: "pc",
@@ -38,11 +39,13 @@ const gamesReducer = (state = initialState, action) => {
     // SEARCH
     // ============================================
     case "LOADING_SEARCH":
-      return { ...state, searchLoading: true, searchError: false };
+      return { ...state, searchQuery: action.payload, searchLoading: true, searchError: false };
     case "SEARCH_GAMES":
       return { ...state, searched: action.payload, searchLoading: false };
     case "SEARCH_ERROR":
-      return { ...state, searchLoading: false, searchError: true };
+      return { ...state, searched: [], searchLoading: false, searchError: true };
+    case "CLEAR_SEARCH":
+      return { ...state, searched: [], searchQuery: "", searchLoading: false, searchError: false };
 
     // ============================================
     // PLATFORM POPULAR
@@ -70,7 +73,8 @@ const gamesReducer = (state = initialState, action) => {
             error: false,
           },
         },
-        activePlatform: action.payload.platform,
+        // activePlatform is set on click (SET_ACTIVE_PLATFORM), not here: a slow response
+        // for an earlier click used to switch the tab back to the wrong platform
       };
     case "PLATFORM_POPULAR_ERROR":
       return {

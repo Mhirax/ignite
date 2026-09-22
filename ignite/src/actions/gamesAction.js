@@ -21,6 +21,13 @@ import {
   searchURL,
 } from "../api";
 
+// fetch() only rejects on network failure, so treat HTTP errors (bad key, rate limit) as errors too
+const getJSON = async (url) => {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`RAWG request failed: ${res.status}`);
+  return res.json();
+};
+
 // ============================================
 // PLATFORM-SPECIFIC FETCH ACTIONS
 // ============================================
@@ -29,8 +36,7 @@ import {
 export const fetchPCPopular = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "pc" });
   try {
-    const res = await fetch(pcPopularURL());
-    const data = await res.json();
+    const data = await getJSON(pcPopularURL());
     dispatch({
       type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "pc", games: data.results },
@@ -43,8 +49,7 @@ export const fetchPCPopular = () => async (dispatch) => {
 export const fetchPCUpcoming = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "pc" });
   try {
-    const res = await fetch(pcUpcomingURL());
-    const data = await res.json();
+    const data = await getJSON(pcUpcomingURL());
     dispatch({
       type: "FETCH_PLATFORM_UPCOMING",
       payload: { platform: "pc", games: data.results },
@@ -57,8 +62,7 @@ export const fetchPCUpcoming = () => async (dispatch) => {
 export const fetchPCNew = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_NEW", payload: "pc" });
   try {
-    const res = await fetch(pcNewURL());
-    const data = await res.json();
+    const data = await getJSON(pcNewURL());
     dispatch({
       type: "FETCH_PLATFORM_NEW",
       payload: { platform: "pc", games: data.results },
@@ -72,8 +76,7 @@ export const fetchPCNew = () => async (dispatch) => {
 export const fetchPSPopular = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "playstation" });
   try {
-    const res = await fetch(psPopularURL());
-    const data = await res.json();
+    const data = await getJSON(psPopularURL());
     dispatch({
       type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "playstation", games: data.results },
@@ -86,8 +89,7 @@ export const fetchPSPopular = () => async (dispatch) => {
 export const fetchPSUpcoming = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "playstation" });
   try {
-    const res = await fetch(psUpcomingURL());
-    const data = await res.json();
+    const data = await getJSON(psUpcomingURL());
     dispatch({
       type: "FETCH_PLATFORM_UPCOMING",
       payload: { platform: "playstation", games: data.results },
@@ -100,8 +102,7 @@ export const fetchPSUpcoming = () => async (dispatch) => {
 export const fetchPSNew = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_NEW", payload: "playstation" });
   try {
-    const res = await fetch(psNewURL());
-    const data = await res.json();
+    const data = await getJSON(psNewURL());
     dispatch({
       type: "FETCH_PLATFORM_NEW",
       payload: { platform: "playstation", games: data.results },
@@ -115,8 +116,7 @@ export const fetchPSNew = () => async (dispatch) => {
 export const fetchXboxPopular = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "xbox" });
   try {
-    const res = await fetch(xboxPopularURL());
-    const data = await res.json();
+    const data = await getJSON(xboxPopularURL());
     dispatch({
       type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "xbox", games: data.results },
@@ -129,8 +129,7 @@ export const fetchXboxPopular = () => async (dispatch) => {
 export const fetchXboxUpcoming = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "xbox" });
   try {
-    const res = await fetch(xboxUpcomingURL());
-    const data = await res.json();
+    const data = await getJSON(xboxUpcomingURL());
     dispatch({
       type: "FETCH_PLATFORM_UPCOMING",
       payload: { platform: "xbox", games: data.results },
@@ -143,8 +142,7 @@ export const fetchXboxUpcoming = () => async (dispatch) => {
 export const fetchXboxNew = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_NEW", payload: "xbox" });
   try {
-    const res = await fetch(xboxNewURL());
-    const data = await res.json();
+    const data = await getJSON(xboxNewURL());
     dispatch({
       type: "FETCH_PLATFORM_NEW",
       payload: { platform: "xbox", games: data.results },
@@ -158,8 +156,7 @@ export const fetchXboxNew = () => async (dispatch) => {
 export const fetchNintendoPopular = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "nintendo" });
   try {
-    const res = await fetch(nintendoPopularURL());
-    const data = await res.json();
+    const data = await getJSON(nintendoPopularURL());
     dispatch({
       type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "nintendo", games: data.results },
@@ -172,8 +169,7 @@ export const fetchNintendoPopular = () => async (dispatch) => {
 export const fetchNintendoUpcoming = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "nintendo" });
   try {
-    const res = await fetch(nintendoUpcomingURL());
-    const data = await res.json();
+    const data = await getJSON(nintendoUpcomingURL());
     dispatch({
       type: "FETCH_PLATFORM_UPCOMING",
       payload: { platform: "nintendo", games: data.results },
@@ -186,8 +182,7 @@ export const fetchNintendoUpcoming = () => async (dispatch) => {
 export const fetchNintendoNew = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_NEW", payload: "nintendo" });
   try {
-    const res = await fetch(nintendoNewURL());
-    const data = await res.json();
+    const data = await getJSON(nintendoNewURL());
     dispatch({
       type: "FETCH_PLATFORM_NEW",
       payload: { platform: "nintendo", games: data.results },
@@ -201,8 +196,7 @@ export const fetchNintendoNew = () => async (dispatch) => {
 export const fetchIosPopular = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "ios" });
   try {
-    const res = await fetch(iosPopularURL());
-    const data = await res.json();
+    const data = await getJSON(iosPopularURL());
     dispatch({
       type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "ios", games: data.results },
@@ -215,8 +209,7 @@ export const fetchIosPopular = () => async (dispatch) => {
 export const fetchIosUpcoming = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "ios" });
   try {
-    const res = await fetch(iosUpcomingURL());
-    const data = await res.json();
+    const data = await getJSON(iosUpcomingURL());
     dispatch({
       type: "FETCH_PLATFORM_UPCOMING",
       payload: { platform: "ios", games: data.results },
@@ -229,8 +222,7 @@ export const fetchIosUpcoming = () => async (dispatch) => {
 export const fetchIosNew = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_NEW", payload: "ios" });
   try {
-    const res = await fetch(iosNewURL());
-    const data = await res.json();
+    const data = await getJSON(iosNewURL());
     dispatch({
       type: "FETCH_PLATFORM_NEW",
       payload: { platform: "ios", games: data.results },
@@ -244,8 +236,7 @@ export const fetchIosNew = () => async (dispatch) => {
 export const fetchAndroidPopular = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_POPULAR", payload: "android" });
   try {
-    const res = await fetch(androidPopularURL());
-    const data = await res.json();
+    const data = await getJSON(androidPopularURL());
     dispatch({
       type: "FETCH_PLATFORM_POPULAR",
       payload: { platform: "android", games: data.results },
@@ -258,8 +249,7 @@ export const fetchAndroidPopular = () => async (dispatch) => {
 export const fetchAndroidUpcoming = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_UPCOMING", payload: "android" });
   try {
-    const res = await fetch(androidUpcomingURL());
-    const data = await res.json();
+    const data = await getJSON(androidUpcomingURL());
     dispatch({
       type: "FETCH_PLATFORM_UPCOMING",
       payload: { platform: "android", games: data.results },
@@ -272,8 +262,7 @@ export const fetchAndroidUpcoming = () => async (dispatch) => {
 export const fetchAndroidNew = () => async (dispatch) => {
   dispatch({ type: "LOADING_PLATFORM_NEW", payload: "android" });
   try {
-    const res = await fetch(androidNewURL());
-    const data = await res.json();
+    const data = await getJSON(androidNewURL());
     dispatch({
       type: "FETCH_PLATFORM_NEW",
       payload: { platform: "android", games: data.results },
@@ -287,12 +276,13 @@ export const fetchAndroidNew = () => async (dispatch) => {
 // SEARCH ACTION
 // ============================================
 export const searchGames = (query) => async (dispatch) => {
-  dispatch({ type: "LOADING_SEARCH" });
+  dispatch({ type: "LOADING_SEARCH", payload: query });
   try {
-    const res = await fetch(searchURL(query));
-    const data = await res.json();
-    dispatch({ type: "SEARCH_GAMES", payload: data.results });
+    const data = await getJSON(searchURL(query));
+    dispatch({ type: "SEARCH_GAMES", payload: data.results || [] });
   } catch (error) {
     dispatch({ type: "SEARCH_ERROR" });
   }
 };
+
+export const clearSearch = () => ({ type: "CLEAR_SEARCH" });
